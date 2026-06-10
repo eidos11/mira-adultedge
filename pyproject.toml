@@ -44,6 +44,12 @@ Issues = "https://github.com/eidos11/mira-adultedge/issues"
 [project.scripts]
 mira = "mira.__main__:main"
 
+[tool.setuptools.packages.find]
+# mira/ is the only Python package; the other top-level directories
+# (spec/, eval/, skills/, research/, ...) are data and would otherwise make
+# setuptools flat-layout auto-discovery refuse the build (pip install -e .).
+include = ["mira*"]
+
 [tool.setuptools.package-data]
 mira = ["system_b/rules/**/*.pl", "system_a/coaching/**/*.md", "system_a/coaching/**/*.yaml"]
 
