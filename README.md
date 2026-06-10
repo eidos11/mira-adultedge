@@ -11,6 +11,9 @@
 > from their own reasoning text, and improve judgment quality through
 > pattern-specific differentiated coaching.
 
+> MIRA does not diagnose personality, mental health, or learner ability; it
+> surfaces candidate reasoning patterns for educational self-reflection.
+
 > **Status: v0.x — Research Preview.** The full diagnostic pipeline runs
 > end-to-end and is reproducible; verification coverage and output tooling are
 > actively expanding. See [Maturity](#maturity) for an honest, component-by-component
@@ -82,7 +85,7 @@ transparently reported.
 |-----------|--------|--------|
 | Pipeline (A→B→A) | ✅ operational | Full diagnose → detect → coach loop |
 | Pattern registry | ✅ <!--stats:patterns-maturity-->21<!--/stats:patterns-maturity--> patterns | 19 core + 2 extension (+1 candidate under review) |
-| Lane 1 — Rule-based critic | ✅ 4 checks | Contract checks #6, #7, #9, #15 (always active) |
+| Lane 1 — Rule-based critic | ✅ 6 checks | 3 content checks (#6, #7, #9) + 3 structural checks (#2, #3, #4), always active; willpower-blame blocking is enforced at report generation |
 | Lane 2 — Prolog formal | 🟡 2 / <!--stats:patterns-verified-->21<!--/stats:patterns-verified--> deductively verified | `false_dilemma`, `oversimplified_cause` (neurosymbolic bridge) |
 | Lane 3 — LLM extraction | 🟡 14 candidates | Stage-conditional priming across 4 stages (evidence-assisted, optional) |
 | System A diagnosis | ✅ 3 axes | metacognition, task_definition, stage (interacting dimensions, not strictly orthogonal) |
@@ -132,7 +135,8 @@ $ python -m mira "$(cat examples/sample_en.txt)"
 
 ## Diagnostic Summary
 inductive verification was performed, but no clear match was found among
-currently executable patterns.
+currently executable patterns. Any coaching below addresses unverified
+candidates and is explicitly marked tentative.
 
 ## Evidence
 **PSR Decomposition:**
@@ -172,6 +176,13 @@ python -m mira "시험에 떨어진다는 건 머리가 나쁜 거겠지..." --l
 Default output is English. Use `--lang ko` to switch the report output to Korean.
 Korean regex patterns in code are intentional NLP features, not artifacts.
 
+> **v0.x honesty note**: the English path is fully exercised end-to-end. Korean
+> input detection and Korean report rendering are implemented, but end-to-end
+> Korean coaching output is still being validated — Korean-language runs
+> currently tend to produce a conservative safe-fallback report rather than
+> pattern-specific coaching. Restoring full Korean coaching content is on the
+> v0.x roadmap.
+
 ## LLM Configuration
 
 MIRA uses a 3-lane architecture for pattern detection:
@@ -206,6 +217,10 @@ keys are set, OpenAI is picked first — force Anthropic with
 | **OpenAI** (`gpt-5.4`) | ≈ $0.004/call | fast (~4s), batch-friendly | API batch runs, cost-sensitive use |
 | **Anthropic** (`claude-sonnet-4-6`) | ≈ $0.008/call | broad pattern recall | you want detection breadth |
 | ~~`gpt-4o-mini` / `gpt-5.4-mini` / `-nano`~~ | — | insufficient quality (missed patterns in our tests) | do not use |
+
+Model IDs and per-call costs reflect our internal tests at the time of writing
+and change quickly — verify availability and pricing with your provider, and
+override the default with `MIRA_LLM_MODEL` as needed.
 
 No LLM at all? MIRA still runs — Lane 1 critic checks work free and instantly,
 with reduced detection breadth (Lane 2 reports `unverified`, Lane 3 is skipped).

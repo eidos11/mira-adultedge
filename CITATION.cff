@@ -9,7 +9,7 @@ authors:
     alias: "eidos11"
     orcid: "https://orcid.org/0009-0005-9709-0851"
 repository-code: "https://github.com/eidos11/mira-adultedge"
-version: "0.2.1"
+version: "0.2.2"
 date-released: "2026-06-10"
 # identifiers:
 #   - type: doi

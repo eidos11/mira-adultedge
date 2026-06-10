@@ -2,6 +2,40 @@
 
 All notable changes to MIRA AdultEdge will be documented in this file.
 
+## [0.2.2] - 2026-06-10 (Pre-publication review fixes)
+
+Corrections from a three-party independent pre-publication review (author /
+Claude Code / GPT) conducted on the private repository before the public
+switch.
+
+### Added
+- `skills/` — the three Anthropic Agent Skills documented in README were
+  missing from the initial packaging
+- Self-authored eval fixtures referenced by tests (third-party-derived
+  fixtures are not redistributed; the affected tests skip with an explicit
+  reason)
+- Honesty note on Korean-language support: Korean input detection and report
+  rendering are implemented, but end-to-end Korean coaching output is still
+  being validated in v0.x
+
+### Changed
+- Published test count is now the collected count under a zero-failure gate,
+  identical in every environment that runs the suite cleanly
+- Dashboard: schema_version sample updated to 0.2.2, verification wording
+  aligned with actual behavior (unverified candidates are explicitly marked
+  tentative), pattern-legend counting clarified
+- README: Lane 1 check list corrected (3 content + 3 structural checks),
+  non-clinical scope statement added, model availability caveat added
+- SECURITY: data-handling statement now states provider-side processing
+  explicitly when external LLM lanes are opted in
+
+### Fixed
+- LICENSE / LICENSE-CONTENT pointed to a stale path for the CC BY 4.0
+  coaching content (`mira/system_a/coaching/*.yaml`)
+- `pip install -e .` failed on setuptools flat-layout auto-discovery
+  (explicit package discovery added); CI is green on both workflows
+- `--stage` CLI flag removed — it was accepted but never reached the pipeline
+
 ## [0.2.1] - 2026-06-10 (First Public Release)
 
 ### Added

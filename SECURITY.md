@@ -30,5 +30,8 @@ MIRA processes learner text for diagnostic analysis. Security concerns include:
 
 - API keys are loaded from environment variables only
 - Lane 1 contract checks block forbidden output patterns before delivery
-- No user data is stored or transmitted beyond the current session
-- LLM calls (Lane 3) are optional and can be disabled entirely
+- MIRA does not persist learner text locally by default. If external LLM lanes
+  are enabled (`MIRA_ENABLE_LANE3=1`), learner text is sent to the configured
+  provider for that call; provider-side retention and processing are governed
+  by the provider's own terms and settings
+- LLM calls (Lanes 2/3 extraction) are opt-in and disabled by default

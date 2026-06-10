@@ -59,7 +59,8 @@
         "I'm just bad at math," "I lack willpower," "it's this or nothing." These are not motivational
         slips; they are <strong>structured judgment distortions</strong> that quietly block improvement.</p>
         <p>Worse, the usual remedy — asking peers online — often <strong>amplifies</strong> the distortion.
-        In an informal internal analysis of public learning-advice threads (106 replies), peer responses
+        In an informal internal analysis of public learning-advice threads (106 replies across 15 Reddit
+        threads; single-annotator labeling — rigorous measurement is future work), peer responses
         <em>reinforced</em> the original bias about a third of the time and <em>corrected</em> it only
         about a fifth — consistent with external behavioral-science literature.
         <strong>MIRA exists to provide the calibrated, theory-grounded diagnosis that human advice networks
@@ -137,8 +138,9 @@ flowchart LR
         </pre>
         <div class="howto"><strong>How to read:</strong> A learner's claim is first decomposed by <strong>PSR</strong> —
         pinpointing <em>where</em> in the reasoning (Premise / Strategy / Result) a distortion sits. The same claim is then
-        checked by up to three independent lanes (rule-based / formal-logic / LLM), and <em>only verified signals drive
-        coaching</em>. Detection and verification are deliberately separated, so MIRA can distinguish what it
+        checked by up to three independent lanes (rule-based / formal-logic / LLM), and <em>verified or evidence-backed
+        signals are surfaced — unverified candidates are explicitly marked as tentative</em>. Detection and verification
+        are deliberately separated, so MIRA can distinguish what it
         <em>knows</em> from what it merely <em>suspects</em>.</div>
         <p style="font-size:0.92em; color:#555;"><strong>Safety gate:</strong> the report passes a violation
         check before output. Verdict language is blocked everywhere; willpower-blame language is blocked in all
@@ -216,6 +218,7 @@ flowchart TB
             <div class="legend-item"><div class="legend-dot" style="background:#E65100"></div> I-type (Inductive, 9)</div>
             <div class="legend-item"><div class="legend-dot" style="background:#2E7D32"></div> A-type (Abductive, 7)</div>
             <div class="legend-item"><div class="legend-dot" style="background:#C62828"></div> DUAL-use (input+output)</div>
+            <div class="legend-item" style="opacity:.75">D/I/A counts include 1 candidate under review — registry total: 21 (19 core + 2 extension)</div>
         </div>
         <div id="cy-pattern"></div>
         <div class="howto"><strong>How to read:</strong> The 21 patterns are grouped by the <em>kind of reasoning</em>
@@ -246,7 +249,7 @@ flowchart TB
 
 ## Diagnosis Summary
 
-deductive verification was performed, but no clear match was found among currently executable patterns.
+deductive verification was performed, but no clear match was found among currently executable patterns. Any coaching below addresses unverified candidates and is explicitly marked tentative.
 
 - **genetic fallacy** ○ unverified
 - **false dilemma** ○ unverified
@@ -267,7 +270,7 @@ deductive verification was performed, but no clear match was found among current
 
 ## Metadata
 
-- schema_version: 0.2.1
+- schema_version: 0.2.2
 - overlay_status: insufficient_evidence
 - lanes active: lane1=active, lane2=inactive, lane3=inactive
         </pre>

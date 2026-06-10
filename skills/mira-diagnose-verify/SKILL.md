@@ -32,7 +32,7 @@ The diagnosis JSON contains:
 |-----|-------------|
 | `schema_version` | contract version (mirrors `mira.report.SCHEMA_VERSION`) |
 | `input` | the original learner text |
-| `route_vtype` | verification type (I / A / C / …) |
+| `route_vtype` | verification type (`D` / `I` / `A`) |
 | `psr` | `{P, S, R}` PSR decomposition |
 | `patterns` | list of `{pattern_id, lane2_status, evidence_trace}` |
 | `overlay_status` | overall verdict: `verified` / `structural_mismatch` / `insufficient_evidence` |

@@ -51,7 +51,9 @@ advice networks usually don't.**
    psychology connected as secondary, reinforcing references. The three anchor
    layers sit at different levels of analysis (cognitive architecture / judgment
    heuristics / instructional design); PSR is the bridge that integrates them
-   per pattern. Each pattern is paired with pattern-specific Socratic coaching.
+   per pattern. The coaching design pairs each pattern with pattern-specific
+   Socratic coaching; in v0.x, 6 of the 21 patterns have dedicated templates
+   (see README Maturity).
 
 ## The bigger picture — mira-core
 

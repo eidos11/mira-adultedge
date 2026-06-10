@@ -118,11 +118,10 @@ def main() -> None:
         dest="output_format",
         help="Output format: text | json | report (expert Markdown) (default: text)",
     )
-    parser.add_argument(
-        "--stage", default="concept",
-        choices=["concept", "framework", "practice", "reality"],
-        help="Estimated learning stage (default: concept)",
-    )
+    # --stage was removed in v0.2.2: the flag was accepted but never reached the
+    # pipeline (run_minimal_loop has no stage parameter), so exposing it
+    # promised behavior the CLI did not deliver. Stage estimation is internal;
+    # a stage override can return once the pipeline accepts one.
 
     args = parser.parse_args()
 

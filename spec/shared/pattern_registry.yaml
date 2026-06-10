@@ -40,10 +40,11 @@
 # Both levels are necessary for full diagnostic and intervention design.
 #
 # ACADEMIC PARALLELS throughout this spec serve as reference anchors and
-# secondary validation only. The founder's theoretical framework is the
-# primary source. Where tension exists, founder's framework takes precedence.
+# secondary validation. The author's original framework (PSR) is the
+# design-theory source for these pattern definitions; empirical claims remain
+# open to external validation.
 #
-# For extended theoretical explanation of any concept, request from founder.
+# For extended theoretical explanation, see VISION.md (research foundation).
 # ------------------------------------------------------------------------------
 # Decision: DEC-2026-04-24-EVAL-REGISTRY01
 # Resolves: ISS-02 17/19/21 taxonomy ambiguity (Codex deep review 2026-04-23)
