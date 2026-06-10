@@ -1,0 +1,82 @@
+[project]
+name = "mira"
+version = "0.2.1"
+description = "MIRA AdultEdge — Memory-Imagination-Reason Architecture for adult learning diagnosis"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+# Code is MIT; packaged knowledge content (coaching/theory YAML) is CC BY 4.0.
+license = "MIT AND CC-BY-4.0"
+authors = [
+  { name = "Mnemo (eidos11)", email = "eidos11@naver.com" },
+]
+keywords = [
+  "cognitive-science",
+  "judgment-bias",
+  "diagnostic-agent",
+  "llm",
+  "adult-learning",
+  "metacognition",
+  "psr-framework",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Education",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "pydantic>=2.0,<3",
+  "PyYAML>=6",
+]
+
+[project.optional-dependencies]
+prolog = ["pyswip>=0.3"]
+llm = ["anthropic>=0.40", "openai>=1.0"]
+all = ["mira[prolog,llm]"]
+dev = ["pytest>=8", "pytest-cov", "ruff", "mypy"]
+
+[project.urls]
+Homepage = "https://github.com/eidos11/mira-adultedge"
+Repository = "https://github.com/eidos11/mira-adultedge"
+Issues = "https://github.com/eidos11/mira-adultedge/issues"
+
+[project.scripts]
+mira = "mira.__main__:main"
+
+[tool.setuptools.package-data]
+mira = ["system_b/rules/**/*.pl", "system_a/coaching/**/*.md", "system_a/coaching/**/*.yaml"]
+
+[tool.uv]
+# Python pinned to the 3.12 baseline; block silent 3.13 drift.
+required-version = ">=0.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+pythonpath = ["."]
+norecursedirs = [".venv", ".git", "__pycache__", "reference", "_archived-code", "archive", "eval", "_drafts"]
+filterwarnings = [
+  "ignore:cannot collect test class 'TestItem'.*:pytest.PytestCollectionWarning",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_ignores = true
+no_implicit_optional = true
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "pytest-cov>=7.1.0",
+]

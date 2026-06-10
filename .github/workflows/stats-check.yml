@@ -1,0 +1,31 @@
+name: Stats Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  stats-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Install SWI-Prolog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y swi-prolog
+
+      - name: Run stats check
+        run: uv run --all-extras python tools/stats.py --check

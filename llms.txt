@@ -1,0 +1,48 @@
+# MIRA AdultEdge — llms.txt
+# Machine-readable project summary for AI coding assistants
+
+## Identity
+- Name: MIRA AdultEdge
+- Type: Judgment-bias diagnostic agent — original PSR theory base with cognitive-science anchors
+- Version: 0.2.1 (alpha)
+- License: MIT (code) + CC BY 4.0 (theory/design)
+- Python: 3.12+
+
+## What It Does
+MIRA analyzes learner-produced text to identify judgment biases using a 3-stage PSR framework (Premise -> Strategy -> Result) and 3-lane verification (Critic + Prolog + LLM). It provides structured diagnostic reports with non-directive coaching suggestions.
+
+## Architecture
+- System A: Diagnostic engine — 3-axis analysis (metacognition, task definition, learning stage)
+- System B: Pattern detection — 3-lane verification (Lane 1: Rule-based critic checks, Lane 2: Prolog formal rules, Lane 3: LLM candidate extraction)
+- Pipeline: A->B->A loop — System A diagnoses, System B verifies patterns, System A generates coaching
+- 21 judgment distortion patterns defined (6 with dedicated coaching content)
+
+## Key Files
+- mira/pipeline.py — Main orchestration loop
+- mira/report.py — Report generation with i18n (en/ko)
+- mira/psr/psr.py — PSR decomposition and vtype routing
+- mira/system_a/engine/ — Diagnostic engine (3 axes)
+- mira/system_b/engine/ — Pattern matcher + critic
+- mira/contracts/minimal.py — Type contracts (Pydantic v2)
+- spec/shared/pattern_registry.yaml — Pattern definitions (SSOT)
+- spec/shared/enums.yaml — Cognitive domain enumerations
+- spec/shared/invariants.yaml — Safety invariants
+
+## Entry Points
+- CLI: python -m mira "text" (--lang en/ko, --format text/json)
+- Python: from mira.pipeline import run_minimal_loop
+
+## Testing
+- 500+ tests, all deterministic (no live API calls)
+- pytest: python -m pytest
+
+## Bilingual
+- Input: English + Korean learner text supported
+- Output: English default, --lang ko for Korean
+- Korean regex patterns in code are intentional NLP features
+
+## Constraints
+- No verdict language in output (enforced by contract)
+- No willpower/blame language (structural reattribution only)
+- LLM output restricted to 5 admissible tags
+- External LLM use is opt-in (MIRA_ENABLE_LANE3) — without it the system runs Lane 1 fully; Lane 2 reports unverified

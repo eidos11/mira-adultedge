@@ -1,0 +1,16 @@
+# System B pattern detection spec — oversimplified_cause (PAT-A-02)
+# Declares WHAT to detect; HOW is in mira/system_b/rules/prolog/oversimplified_cause.pl
+
+pattern_id: oversimplified_cause
+canonical_id: PAT-A-02
+vtype: A
+psr_coaching_target: S
+
+detection_criteria:
+  trigger: "single-cause attribution for multi-factor outcome"
+  indicators:
+    - "because of X (single factor)"
+    - "ignoring contributing factors"
+    - "monocausal explanation"
+
+prolog_rule: mira/system_b/rules/prolog/oversimplified_cause.pl

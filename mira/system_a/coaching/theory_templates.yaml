@@ -1,0 +1,166 @@
+# AE M1 Theory Templates — pattern → theory substrate mapping
+#
+# Layer architecture (4.7 domain review):
+#   internal layer: act_r / kahneman / edu_ref — system-internal, not learner-visible
+#   learner layer: learner_message — plain language, no jargon
+#
+# Source: docs/corpus_mapping/ 7 documents (registered Phase 4 T1):
+#   ACT_corpus_spec, KAH_corpus_spec, EDU_corpus_spec, BAY_corpus_spec,
+#   AE_17pattern_evidence_registry, AE_17pattern_evidence_registry_VERIFY_report,
+#   AE_SystemA_coaching_foundation
+
+fluency_illusion:
+  pattern_id: PAT-I-06
+  vtype: I
+  psr_coaching_target: P
+  definition: "Mistaking surface fluency for mastery — reading smoothly does not mean knowing"
+  internal:
+    act_r: >
+      High activation and processing fluency make declarative chunk access easy, but procedural
+      competence requires cue-free retrieval and interpretive use. A distortion in which accessibility
+      (activation level) is misread as transfer readiness.
+    kahneman: >
+      Cognitive ease produces a sense of familiarity, lowered vigilance, and a feeling of
+      understanding. System 1 accepts the fluent impression when there is no output test. The hard
+      question "Can I retrieve and use this?" is substituted by the easy question "Does it feel
+      familiar?" (WYSIATI, substitution).
+    edu_ref: >
+      SRL monitoring/calibration failure — JOL is anchored to processing fluency rather than
+      performance-based retrieval evidence (Zimmerman SRL; Bjork desirable difficulties).
+    key_citations:
+      - "Koriat (1997) Monitoring one's own knowledge during study"
+      - "Bjork, Dunlosky & Kornell (2013) Self-regulated learning"
+      - "Anderson 2000 Ch.8 Retrieval; TFS Ch.5 Cognitive Ease"
+  learner_message: "Reading smoothly does not mean you know it — you need to close the book and try explaining it yourself or actually applying it to confirm genuine understanding."
+  confidence: { act_r: high, kahneman: high }
+
+false_dilemma:
+  pattern_id: PAT-D-02
+  vtype: D
+  psr_coaching_target: S
+  definition: "Reducing a multi-option strategy space to two alternatives — perfect execution vs. complete failure"
+  internal:
+    act_r: >
+      The goal state activates only a narrow production set, preventing alternative operators from
+      entering conflict resolution. When the candidate set is artificially narrow, the selected action
+      is locally rational but globally distorted (search space and production candidate collapse).
+    kahneman: >
+      The available frame defines the entire option set. System 1 treats the represented alternatives
+      as exhaustive (WYSIATI), and System 2 often fails to ask about absent options. The hard question
+      "What strategy options exist in total?" is substituted by "Which of these two is less bad?"
+    edu_ref: >
+      Strategy-space topology error (S-stage). Intervention: option-space topology expansion — for
+      every dichotomous claim, mandate generation of at least 3 strategic branches plus 1 minimally
+      reversible experiment.
+    key_citations:
+      - "Kruglanski (2004) Psychology of Closed Mindedness"
+      - "Anderson, Architecture of Cognition Ch.1,4; TFS Ch.7,9,34"
+  learner_message: "The two options you see right now may not be all there is — try thinking of a third path, or designing one small experiment first."
+  confidence: { act_r: high, kahneman: medium-high }
+
+oversimplified_cause:
+  pattern_id: PAT-A-02
+  vtype: A
+  psr_coaching_target: R
+  definition: "Reducing a multi-factor learning failure to a single cause — laziness, talent, method, time, etc."
+  internal:
+    act_r: >
+      The most available causal chunk wins retrieval and drives a single production. A single-cause
+      explanation lowers cognitive cost and can acquire high utility even when structurally incomplete.
+      The single causal hypothesis dominates the problem state, blocking multi-factor evidence retrieval.
+    kahneman: >
+      System 1 rapidly imposes causal coherence and ignores absent variables. The hard question "What
+      is the full causal structure?" is substituted by the easy question "What is the most readily
+      available cause?" (associative coherence, WYSIATI, substitution, causal bias).
+    edu_ref: >
+      Direct target of the EDU structure-first doctrine. Modify causal language from trait-blame to
+      testable structural variables: task clarity, step appropriateness, method, time-energy,
+      feedback/feedback loop, social environment. Use a minimum 5-variable causal graph template.
+    key_citations:
+      - "Kelley (1967) Attribution theory in social psychology"
+      - "Pearl (2000) Causality"
+      - "Anderson 2000 Ch.10 Causal Inference; TFS Ch.4,6,7,16"
+  learner_message: "If your explanation ends with 'lack of willpower' alone, there is nothing left to change — try identifying which part is actually off among task, steps, feedback, time, and strategy, one by one."
+  confidence: { act_r: high, kahneman: high }
+  compound_alert: "Frequent co-occurrence with effort_heuristic → PAT-DUAL-01 compound. When detected simultaneously, apply structural-reattribution protocol."
+
+sunk_cost:
+  pattern_id: PAT-I-04
+  vtype: I
+  psr_coaching_target: R
+  definition: "Past investment (time, money, effort, identity) used as the basis for continuing a strategy with weak future expected value"
+  internal:
+    act_r: >
+      ACT-R utility should select productions based on future expected gain minus cost. Sunk cost
+      distortion occurs when past effort strengthens continuation-productions or emotionally tags them
+      so they are selected even when future utility is low — production utility becomes contaminated
+      by already-incurred costs.
+    kahneman: >
+      Abandoning a path or method is framed as loss realization. Mental accounting activates past
+      investments, making switching feel like waste. Due to loss aversion from prospect theory, the
+      pain of losing what has been invested overwhelms an equivalent future gain (loss_aversion,
+      mental_accounting, narrow_framing).
+    edu_ref: >
+      Future-only decision frame: ignore already-spent costs, compare expected outputs over the next
+      two weeks across continue/switch/stop options. Use a future-only utility worksheet.
+    key_citations:
+      - "Arkes & Blumer (1985) Psychology of sunk cost"
+      - "Kahneman & Tversky (1979) Prospect Theory"
+      - "Anderson, Rules of the Mind Ch.3,4; TFS Ch.27,28,32,34"
+  learner_message: "It is natural to feel reluctant to let go of the time you have already invested, but try basing your decision on which choice will return more going forward."
+  confidence: { act_r: high, kahneman: medium-high }
+
+effort_heuristic:
+  pattern_id: PAT-I-07
+  vtype: I
+  psr_coaching_target: P
+  definition: "The quantity of time, suffering, or diligence is treated as direct evidence of learning quality, strategy quality, or future success"
+  internal:
+    act_r: >
+      Practice strengthens what is actually practiced — not what the learner intends to improve. When
+      passive, avoidant, or erroneous productions are repeatedly executed while output evidence is weak
+      but effort quantity becomes a salient cue for self-assessment, effort misleads.
+    kahneman: >
+      The hard question "Has my competence changed?" is substituted by the easy question "Did I work
+      hard?" (classic substitution). Effort carries moral and emotional salience and accumulates in
+      mental accounting, but it is not equivalent to output change.
+    edu_ref: >
+      Effort is a regulatory signal, not a mastery signal (Zimmerman SRL). Deliberate practice
+      (Ericsson) asks which target performance has improved through structured feedback, not how much
+      the learner has suffered.
+    key_citations:
+      - "Kruger et al. (2004) The effort heuristic"
+      - "Ericsson, Krampe & Tesch-Römer (1993) Deliberate practice"
+      - "Anderson, Rules of the Mind Ch.4; TFS Ch.2,9,32"
+  learner_message: "The feeling that you worked hard is not evidence that your skills have improved — you need to check 'what has actually changed' for it to be genuine learning."
+  confidence: { act_r: high, kahneman: medium }
+  compound_alert: "Frequent co-occurrence with oversimplified_cause → PAT-DUAL-01 compound. When detected simultaneously, apply structural-reattribution protocol."
+
+willpower_blame:
+  pattern_id: PAT-DUAL-01
+  vtype: A
+  psr_coaching_target: R
+  definition: "Attributing learning failure to willpower or character deficits — blocking structural improvement pathways"
+  internal:
+    act_r: >
+      When self-attribution is fixated at the trait level, production changes at the situation,
+      behavior, and strategy levels are not explored. Willpower attribution acquires high utility
+      as a self-assessment production, pre-empting structural cause exploration.
+    kahneman: >
+      System 1 imposes coherence through a single causal attribute (character deficit). Willpower
+      attribution has high emotional salience, overwhelming alternative explanations, and due to
+      WYSIATI, structural variables are excluded from consideration. Trait attribution is a
+      self-directed dispositional attribution (Weiner 1985), analogous to the fundamental
+      attribution error applied to self-judgment.
+    edu_ref: >
+      Direct target of Dweck's growth mindset vs. fixed mindset. Willpower attribution is an
+      expression of entity theory (fixed trait theory), and the intervention direction is switching
+      to incremental theory (gradual change theory). Reset attribution to structural variables (task
+      design, feedback, time allocation).
+    key_citations:
+      - "Dweck (2006) Mindset: The New Psychology of Success"
+      - "Weiner (1985) An attributional theory of achievement motivation"
+      - "Anderson, Architecture of Cognition; TFS Ch.4,6,16"
+  learner_message: "The explanation 'I lack willpower' leaves nothing to change — try identifying which factor among task structure, time allocation, and feedback availability you could actually adjust."
+  confidence: { act_r: medium-high, kahneman: high }
+  compound_alert: "High co-occurrence rate with oversimplified_cause → structural-reattribution protocol. When detected simultaneously, prioritize reattribution from character-based to structural variables."

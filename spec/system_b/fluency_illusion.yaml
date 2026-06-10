@@ -1,0 +1,16 @@
+# System B pattern detection spec — fluency_illusion (PAT-I-06, pilot)
+# Declares WHAT to detect; HOW rule is Phase 2+ implementation target
+
+pattern_id: fluency_illusion
+canonical_id: PAT-I-06
+vtype: I
+psr_coaching_target: P
+
+detection_criteria:
+  trigger: "surface fluency mistaken for mastery"
+  indicators:
+    - "I understand this" without verification
+    - "easy/clear" self-assessment after passive exposure
+    - "metacognitive overconfidence"
+
+prolog_rule: null  # to be implemented

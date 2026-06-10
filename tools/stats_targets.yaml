@@ -1,0 +1,37 @@
+# Per-occurrence manifest for tools/stats.py (design: ae-stats-injection-design.md v2).
+#
+# Decision B (marker density = pragmatic hybrid, 2026-06-02):
+#   - tests   : fully systematized — floor markers in prose, exact markers in
+#               regenerated artifacts (dashboard / internal index), soft floor in
+#               llms.txt, de-numbered code blocks (handled in the docs, not here).
+#   - patterns: markers only on structured numeric surfaces (table cells, stat
+#               cards); all prose is aligned to the canonical value once and a
+#               --check stray guard catches any regression to a stale total.
+#
+# render    : floor  -> "<N00>+" (monotonic, min_floor)        | exact -> "<N>"
+# mechanism : html_marker -> <!--stats:ID-->...<!--/stats:ID-->| injected + checked
+#             soft_text    -> plain prose floor (no marker)     | checked only
+#             yaml_field   -> .cff scalar (no HTML comment)      | checked only
+
+min_floor: 300
+
+targets:
+  # --- tests ---------------------------------------------------------------- #
+  - {file: README.md, occurrence_id: tests, stat: tests, render: floor, mechanism: html_marker}
+  - {file: VISION.md, occurrence_id: tests, stat: tests, render: floor, mechanism: html_marker}
+  - {file: llms.txt, occurrence_id: tests, stat: tests, render: floor, mechanism: soft_text}
+  - {file: docs/index.html, occurrence_id: tests-card, stat: tests, render: exact, mechanism: html_marker}
+  - {file: docs/index.html, occurrence_id: tests-table, stat: tests, render: exact, mechanism: html_marker}
+  - {file: README_Index.md, occurrence_id: tests, stat: tests, render: exact, mechanism: html_marker}
+
+  # --- patterns (markers on structured surfaces; prose aligned + guarded) ---- #
+  - {file: README.md, occurrence_id: patterns-maturity, stat: patterns, render: exact, mechanism: html_marker}
+  - {file: README.md, occurrence_id: patterns-verified, stat: patterns, render: exact, mechanism: html_marker}
+  - {file: docs/index.html, occurrence_id: patterns-card, stat: patterns, render: exact, mechanism: html_marker}
+  - {file: docs/index.html, occurrence_id: patterns-verified-card, stat: patterns, render: exact, mechanism: html_marker}
+  - {file: docs/index.html, occurrence_id: patterns-table, stat: patterns, render: exact, mechanism: html_marker}
+  - {file: README_Index.md, occurrence_id: patterns, stat: patterns, render: exact, mechanism: html_marker}
+
+  # --- patterns verify-only (already aligned to 21) ------------------------- #
+  - {file: CITATION.cff, occurrence_id: patterns, stat: patterns, render: exact, mechanism: yaml_field}
+  - {file: llms.txt, occurrence_id: patterns, stat: patterns, render: exact, mechanism: soft_text}

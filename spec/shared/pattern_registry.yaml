@@ -1,0 +1,293 @@
+# Pattern Registry (Canonical SSOT)
+# ------------------------------------------------------------------------------
+# THEORETICAL FOUNDATION
+#
+# This specification is grounded in an original theoretical framework developed
+# by the project founder (Mnemo), NOT derived from existing cognitive science
+# traditions. Three core theoretical documents underlie this spec:
+#   - Doc 0: Human and civilization (ontological base; hypothesis-based judgment,
+#             basic emotions, deception taxonomy)
+#   - Doc 1: Hypothesis-based judgment (mechanism of judgment formation,
+#             self/other deception, falsification/concealment)
+#   - Doc 2: Sensation, memory, imagination (4-layer diagnostic model)
+#
+# These documents are not publicly distributed. For theoretical clarifications,
+# contact the founder directly.
+#
+# KEY SCOPE DECLARATIONS:
+#
+# 4-layer model (cognitive_layers) - diagnostic dimension for learner
+# self-report, NOT a cognitive processing theory. The ordering
+# (sensory -> memory -> imagination -> reasoning) reflects how learners
+# mis-identify their own attainment level, not a neural processing sequence.
+#
+# hypothesis-based judgment - a founder-original concept distinct from
+# Popper's scientific theory-testing method. Refers to the human cognitive
+# mechanism by which judgment forms on insufficient evidence, driven by
+# intent. Academic parallels (Peirce's abduction, Bayesian reasoning) are
+# reference anchors only, not primary sources.
+#
+# concealment / falsification - a founder-original binary taxonomy of
+# deception mechanisms. "Falsification" here is NOT Popper's scientific
+# testability principle. It denotes transformation-based deception
+# (fabrication, manipulation, interpretive distortion), contrasted with
+# concealment (omission-based deception). Alternative label: "alteration"
+# (emphasizes modification of existing content; see Doc 0 deception section
+# for full scope).
+#
+# adaptive_function framework - patterns are analyzed at two levels:
+# individual cognitive misfire AND social-evolutionary adaptive origin.
+# Both levels are necessary for full diagnostic and intervention design.
+#
+# ACADEMIC PARALLELS throughout this spec serve as reference anchors and
+# secondary validation only. The founder's theoretical framework is the
+# primary source. Where tension exists, founder's framework takes precedence.
+#
+# For extended theoretical explanation of any concept, request from founder.
+# ------------------------------------------------------------------------------
+# Decision: DEC-2026-04-24-EVAL-REGISTRY01
+# Resolves: ISS-02 17/19/21 taxonomy ambiguity (Codex deep review 2026-04-23)
+# Authority: shared by Lane 1 Contract Critic, Lane 2 Fixture Critic, Lane 3 Shadow Critic
+# Last updated: 2026-04-24
+
+schema_version: "1.0"
+registry_version: "1.0"
+
+# -- Cardinality Resolution (ISS-02) -------------------------------------------
+# Historical: "17-pattern" lineage label
+# Actual: 19 core (D6 + I8 + A5) + 2 extension = 21 total diagnostic
+# Plus: invariant_trigger / neutral_label / rubric_label / pending
+cardinality:
+  diagnostic_core: 19
+  diagnostic_extension: 2
+  diagnostic_total: 21
+  historical_label: "17-pattern (lineage retained for compatibility)"
+
+# ------------------------------------------------------------------------------
+# §1. diagnostic_pattern - learner reasoning distortion
+#     Lane 2 Fixture Critic primary; detected in learner INPUT
+# ------------------------------------------------------------------------------
+diagnostic_pattern:
+  # -- D-type (deductive, 6) -----------------------------------------------------
+  - id: genetic_fallacy
+    canonical_id: PAT-D-01
+    vtype: D
+    fixture: fixtures/genetic_fallacy.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening executive function / metacognition is the core intervention)
+    #   cc_note: "CC classification deferred - insufficient evidence for an evolutionarily adaptive function of source-origin inference. Selectivity_review maintained."
+  - id: false_dilemma
+    canonical_id: PAT-D-02
+    vtype: D
+    fixture: fixtures/false_dilemma.yaml
+    tier_A_primary: true
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - binary option reduction has an evolutionarily adaptive speed-decision function, but additional review of misfire alignment in the learning domain is required."
+  - id: appeal_to_authority
+    canonical_id: PAT-D-03
+    vtype: D
+    fixture: fixtures/appeal_to_authority.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - trust in authority has some socio-evolutionary group-learning function, but alignment of misfire in the learning-evaluation context requires review."
+  - id: appeal_to_consequences
+    canonical_id: PAT-D-04
+    vtype: D
+    fixture: fixtures/appeal_to_consequences.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - consequence-based judgment has a practical survival function, but the distortion boundary becomes unclear when mixed with epistemics."
+  - id: perfectionist_fallacy
+    canonical_id: PAT-D-05
+    vtype: D
+    fixture: fixtures/perfectionist_fallacy.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - the pursuit of completeness has an adaptive function for improving accuracy, but the pathway by which it misfires as an impediment to learning progress requires review."
+  - id: begging_the_question
+    canonical_id: PAT-D-06
+    vtype: D
+    fixture: fixtures/begging_the_question.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - circular reasoning may be linked to cognitive closure function, but evidence aligning it with an adaptive function is insufficient."
+
+  # -- I-type (inductive, 8) -----------------------------------------------------
+  - id: hasty_generalization
+    canonical_id: PAT-I-01
+    vtype: I
+    fixture: fixtures/hasty_generalization.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: primary
+    #   modernity_misfire_context: "The evolutionarily adaptive survival mechanism of limited evidence + rapid judgment misfires in modern complex knowledge domains (learning/testing) - few cases lead to over-generalization of a universal rule."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening metacognition / evidence evaluation is the core intervention. Adaptive classification is limited to the Layer 2 epistemic intent)
+  - id: anecdotal_evidence
+    canonical_id: PAT-I-02
+    vtype: I
+    fixture: fixtures/anecdotal_evidence.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1, Mnemo 2026-04-30 Option B adopted):
+    #   classification: primary
+    #   modernity_misfire_context: "The personal-experience generalization mechanism + modern complex domain (forming a universal claim from only 1-2 cases)."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   note: "Promoted to Primary (Mnemo 2026-04-30 decision, Option B) - restores classificatory symmetry with hasty_generalization (PAT-I-01). Prioritization of personal experience = rapid generalization adaptive mechanism (aligned with Tversky-Kahneman heuristics) + misfire in modern complex multi-factor learning domains."
+  - id: prediction_fallacy
+    canonical_id: PAT-I-03
+    vtype: I
+    fixture: fixtures/prediction_fallacy.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - a connection to future-prediction heuristics is possible, but evidence aligning a learning-domain-specific adaptive function is insufficient."
+  - id: sunk_cost
+    canonical_id: PAT-I-04
+    vtype: I        # CANONICAL: I-type. One Tier S draft item (ATR-SC-AE-001) using A-type is corrected during ISS-03 handling
+    fixture: fixtures/sunk_cost.yaml
+    note: "ISS-06 vtype mismatch resolved: I (canonical). Applies 09 §3.5 sunk_cost vs false_dilemma discrimination."
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: primary
+    #   modernity_misfire_context: "In educational credentialing markets - the evolutionary resource-conservation mechanism activates as an over-reaction to sunk costs accumulated through degrees, certifications, and already-invested learning time in modern learning systems."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening metacognition / decision-frame switching is the core intervention. Adaptive classification is limited to the Layer 2 epistemic intent)
+  - id: composition_fallacy
+    canonical_id: PAT-I-05
+    vtype: I
+    fixture: fixtures/composition_fallacy.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - part-to-whole induction has an evolutionary function, but evidence aligning a learning-domain-specific adaptive function is insufficient."
+  - id: fluency_illusion
+    canonical_id: PAT-I-06
+    vtype: I
+    fixture: fixtures/fluency_illusion.yaml
+    tier_A_primary: true
+    coverage_note: "Critical gap (Codex Appendix C): Tier S primary 0 items. Top-priority Tier A acquisition target"
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: primary
+    #   modernity_misfire_context: "The surface familiarity recognition mechanism (familiarity signal at the memory layer) misfires in modern self-assessment learning environments (self-paced / self-graded settings) - the feeling of having understood through reading is mistaken for actual retrieval ability."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening metacognition / retrieval practice is the core intervention. Adaptive classification is limited to the Layer 2 epistemic intent)
+  - id: effort_heuristic
+    canonical_id: PAT-I-07
+    vtype: I
+    fixture: fixtures/effort_heuristic.yaml
+    tier_A_primary: true
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: secondary
+    #   modernity_misfire_context: "The effort-reward mapping mechanism (quantity of effort -> inference of achievement) misfires in modern abstract knowledge domains - in situations where physical effort time is high but actual depth of understanding is low, the effort signal is mistaken for a mastery signal."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening metacognition / deliberate practice strategy is the core intervention. Adaptive classification is limited to the Layer 2 epistemic intent)
+  - id: recognition_retrieval_confusion
+    canonical_id: PAT-I-08
+    vtype: I
+    fixture: fixtures/recognition_retrieval_confusion.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: secondary
+    #   modernity_misfire_context: "The cue-driven recognition mechanism (familiar cue -> memory playback) misfires in modern test / retrieval-based learning environments - retrieval failure manifests when pure retrieval without cues is required."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening metacognition / retrieval practice is the core intervention. Adaptive classification is limited to the Layer 2 epistemic intent)
+
+  # -- A-type (abductive, 5) -----------------------------------------------------
+  - id: confusing_explanation_excuse
+    canonical_id: PAT-A-01
+    vtype: A
+    fixture: fixtures/confusing_explanation_excuse.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - generation of self-protective explanations may be linked to a social face-saving function, but the suitability of misfire alignment in the learning domain requires review."
+  - id: oversimplified_cause
+    canonical_id: PAT-A-02
+    vtype: A
+    fixture: fixtures/oversimplified_cause.yaml
+    tier_A_primary: true
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: secondary
+    #   modernity_misfire_context: "The rapid causal attribution heuristic (single-cause attribution -> fast action decision) misfires in modern complex multi-factor learning environments - the multi-causal reasons for poor learning outcomes are attributed to a single factor (talent/method)."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening causal reasoning / multi-factor analysis is the core intervention. Adaptive classification is limited to the Layer 2 epistemic intent)
+  - id: self_serving_attribution
+    canonical_id: PAT-A-03
+    vtype: A
+    fixture: fixtures/self_serving_attribution.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1, Mnemo 2026-04-30 Option B adopted):
+    #   classification: primary
+    #   modernity_misfire_context: "Self-esteem protection + social attribution mechanism (Heider attribution theory) + modern educational accountability environment (external attribution of failure causes learning stagnation)."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   note: "Promoted to Primary (Mnemo 2026-04-30 decision, Option B) - strong socio-evolutionary self-esteem protection function of self-serving attribution bias + strong misfire in learning contexts. The classificatory boundary with willpower_blame (dual primary intent) is a separate review layer (to proceed after additional Mnemo intervention review)."
+  - id: identity_protective_reasoning
+    canonical_id: PAT-A-04
+    vtype: A
+    fixture: fixtures/identity_protective_reasoning.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - identity-protective reasoning may be linked to the adaptive function of preserving social group membership, but alignment of misfire in the learning domain requires review. Referencing Kahan cultural cognition research is recommended."
+  - id: post_hoc_rationalization
+    canonical_id: PAT-A-05
+    vtype: A
+    fixture: fixtures/post_hoc_rationalization.yaml
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: selectivity_review
+    #   modernity_misfire_context: (deferred - Mnemo review recommended)
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing)
+    #   cc_note: "CC classification deferred - post-hoc rationalization may be linked to a social coherence-maintenance function, but alignment of misfire in the learning-evaluation context requires review."
+
+  # -- Extension (2) -------------------------------------------------------------
+  - id: social_comparison
+    canonical_id: PAT-EXT-01
+    vtype: I
+    fixture: fixtures/extensions/social_comparison.yaml
+    extension: true
+    decision_ref: EXT-ADULTEDGE-001
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: primary
+    #   modernity_misfire_context: "The social ledger-keeping mechanism (gauging relative standing -> resource competition strategy) misfires in modern peer-comparison amplification (digital credentialing / ranking systems) - intrinsic learning motivation is replaced by an external comparison standard, and fixation on relative superiority degrades learning efficiency."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening self-regulation / intrinsic motivation is the core intervention. Adaptive classification is limited to the Layer 2 epistemic intent)
+  - id: catastrophizing
+    canonical_id: PAT-EXT-02
+    vtype: A
+    fixture: fixtures/extensions/catastrophizing.yaml
+    extension: true
+    decision_ref: EXT-ADULTEDGE-002
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: secondary
+    #   modernity_misfire_context: "The threat-detection mechanism (anticipatory preparation for worst-case scenarios) is over-activated in modern low-threat learning environments - exam failure / learning setbacks are over-reacted to as existential crises. The vigilance system misfires in threat-absent contexts."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening metacognition / self-regulation / threat calibration is the core intervention. Adaptive classification is limited to the Layer 2 epistemic intent)
+
+  # -- Dual-use input descriptor (also invariant_trigger output) -----------------
+  - id: willpower_blame
+    canonical_id: PAT-DUAL-01
+    vtype: A
+    fixture: fixtures/willpower_blame.yaml
+    dual_use:
+      input_lane: 2          # Lane 2 Fixture: detected in learner input
+      output_lane: 1         # Lane 1 Contract: forbidden in system output (Inv #12)
+    note: "ISS-05 resolution: input pattern detection is Lane 2; output forbidden enforcement is Lane 1 (Invariant #12). Tier S usage is input lane only."
+    # adaptive_function_classification (DEC-2026-04-30, supplementary §1):
+    #   classification: primary
+    #   modernity_misfire_context: "The socio-evolutionary individual accountability mechanism (individual responsibility attribution -> maintenance of group norms) misfires in modern structural learning systems - structural flaws in the learning environment (educational system design, unequal resource access) are misattributed to individual willpower deficits. Both self-attribution by the learner and external attribution are manifested."
+    #   intervention_primary_layer: cognitive_capacity_layer (Layer 1, Mnemo 2026-04-30 rebalancing - strengthening structural reattribution / self-regulation is the core intervention. Adaptive classification is limited to the Layer 2 epistemic intent)
+
+# ------------------------------------------------------------------------------
+# §2. invariant_trigger - SSOT: see invariants.yaml §1
+#     For Lane 1 operational assets (invariant_trigger, neutral_label, rubric_label,
+#     pending_extension), invariants.yaml is the SSOT.
+#     This file is dedicated exclusively to §1 diagnostic_pattern SSOT.
+#
+#     Regex implementations (contract.py):
+#       WILLPOWER_BLAME_RE  -> invariant #12 (check #15)
+#       VERDICT_LANGUAGE_RE -> invariant #1  (check #7)
+# ------------------------------------------------------------------------------

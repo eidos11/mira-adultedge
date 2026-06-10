@@ -1,0 +1,157 @@
+# Lane 1 contract assets - invariant triggers, neutral/rubric labels, pending extensions
+# ------------------------------------------------------------------------------
+# THEORETICAL FOUNDATION
+#
+# This specification is grounded in an original theoretical framework developed
+# by the project founder (Mnemo), NOT derived from existing cognitive science
+# traditions. Three core theoretical documents underlie this spec:
+#   - Doc 0: Human and civilization (ontological base; hypothesis-based judgment,
+#             basic emotions, deception taxonomy)
+#   - Doc 1: Hypothesis-based judgment (mechanism of judgment formation,
+#             self/other deception, falsification/concealment)
+#   - Doc 2: Sensation, memory, imagination (4-layer diagnostic model)
+#
+# These documents are not publicly distributed. For theoretical clarifications,
+# contact the founder directly.
+#
+# KEY SCOPE DECLARATIONS:
+#
+# 4-layer model (cognitive_layers) - diagnostic dimension for learner
+# self-report, NOT a cognitive processing theory. The ordering
+# (sensory -> memory -> imagination -> reasoning) reflects how learners
+# mis-identify their own attainment level, not a neural processing sequence.
+#
+# hypothesis-based judgment - a founder-original concept distinct from
+# Popper's scientific theory-testing method. Refers to the human cognitive
+# mechanism by which judgment forms on insufficient evidence, driven by
+# intent. Academic parallels (Peirce's abduction, Bayesian reasoning) are
+# reference anchors only, not primary sources.
+#
+# concealment / falsification - a founder-original binary taxonomy of
+# deception mechanisms. "Falsification" here is NOT Popper's scientific
+# testability principle. It denotes transformation-based deception
+# (fabrication, manipulation, interpretive distortion), contrasted with
+# concealment (omission-based deception). Alternative label: "alteration"
+# (emphasizes modification of existing content; see Doc 0 deception section
+# for full scope).
+#
+# adaptive_function framework - patterns are analyzed at two levels:
+# individual cognitive misfire AND social-evolutionary adaptive origin.
+# Both levels are necessary for full diagnostic and intervention design.
+#
+# ACADEMIC PARALLELS throughout this spec serve as reference anchors and
+# secondary validation only. The founder's theoretical framework is the
+# primary source. Where tension exists, founder's framework takes precedence.
+#
+# For extended theoretical explanation of any concept, request from founder.
+# ------------------------------------------------------------------------------
+invariant_trigger:
+  - id: LLM_verdict_violation
+    invariant_id: "#1"
+    enforcement: strict
+    description: "LLM outputs a verdict outside admissible tags"
+    reference: "06 §3.1 gate_blocks_on"
+    impl_ref: "contract.py::VERDICT_LANGUAGE_RE (check #7)"
+  - id: trace_completeness_violation
+    invariant_id: "#6"
+    enforcement: strict
+    description: "Trace evidence span missing"
+  - id: final_personality_diagnosis
+    invariant_id: "#10"
+    enforcement: strict
+    description: "Definitive personality or identity diagnosis in output is prohibited"
+  - id: willpower_blame
+    invariant_id: "#12"
+    enforcement: strict
+    description: "Blaming willpower, laziness, or lack of effort in system output is prohibited (permitted only when accompanied by structural reattribution)"
+    reference: "06 §7.1 Invariant #12"
+    cross_ref: "diagnostic_pattern.willpower_blame (dual_use)"
+    impl_ref: "contract.py::WILLPOWER_BLAME_RE (check #15)"
+  - id: hs_ogn_style_intervention
+    invariant_id: "#13"
+    enforcement: bronze_rubric    # rubric, not blocking
+    description: "HS-ogn response style (structural diagnosis + alternative suggestion) bronze score"
+    reference: "06 §7.2 Invariant #13"
+  - id: forbidden_pattern_emitted
+    invariant_id: "lane2_forbidden"
+    enforcement: strict
+    description: "Lane 2 fixture forbidden pattern emitted"
+
+# ------------------------------------------------------------------------------
+# §3. neutral_label - distortion-free, methodology/practical query
+#     DEC-2026-04-23-EVAL-NEUTRAL01: 10% upper limit
+# ------------------------------------------------------------------------------
+neutral_label:
+  - id: methodology_query
+    canonical_id: NEU-01
+    description: "No AdultEdge distortion signal present. Practical question or methodology inquiry."
+    decision_ref: DEC-2026-04-23-EVAL-NEUTRAL01
+    bidirectional_role: false_positive_prevention   # v2 (2026-04-27)
+    common_resemblance: [oversimplified_cause, fluency_illusion]   # patterns commonly mistaken for this
+    constraints:
+      max_proportion_of_test_bank: 0.10       # 10%
+      eval_0_max: 5
+      eval_1_max: 12
+      eval_2_max: 20
+    field_overrides:
+      confidence_band: low
+      structural_leak_identified: optional
+      ask_one_clarifying_question: required
+    tier_S_count: 5         # §12.5, §12.8, §12.11, etc.
+    note: "ISS-04 resolution: neutral category formally established. Lane 1 does not reject legitimately neutral items."
+  - id: structural_information_request
+    canonical_id: NEU-02
+    description: "Learner requests structural information (resources / schedule / criteria / material location). No judgment distortion signal present."
+    decision_ref: DEC-2026-04-27-EVAL-CALIB-V2     # spec v2 newly listed
+    bidirectional_role: false_positive_prevention
+    common_resemblance: []                         # weak surface resemblance to distortions
+    note: "v2 (2026-04-27) newly added: avoids the risk of misclassifying an information request as a distortion"
+  - id: exploratory_question
+    canonical_id: NEU-03
+    description: "Learner asks an exploratory question comparing hypotheses or probing boundary cases. Accompanied by qualification limiting and verification attempts."
+    decision_ref: DEC-2026-04-27-EVAL-CALIB-V2
+    bidirectional_role: false_positive_prevention
+    common_resemblance: [hasty_generalization]     # varied-case questions may be mistaken for overgeneralization
+    note: "v2 (2026-04-27) newly added: Doc 0 §Logic of Cognition - avoids misclassifying hypothesis-refinement behavior as a distortion"
+
+# ------------------------------------------------------------------------------
+# §4. rubric_label - Bronze rubric scoring target
+#     Lane 2 Bronze rubric scoring (intervention quality)
+# ------------------------------------------------------------------------------
+rubric_label:
+  - id: hs_ogn_style_similarity
+    canonical_id: RUB-01
+    description: "HS-ogn intervention style similarity (Invariant #13 measurement)"
+    bronze_pass_threshold: 0.70
+    measurement: "5 criteria x 2pt = 10pt -> >= 7/10"
+    reference: "06 §7.2"
+  - id: problem_reframing_quality_score
+    canonical_id: RUB-02
+    description: "Problem Reframing Rule 7 - introduced at Release 200 stage (W9-12)"
+    decision_ref: DEC-2026-04-23-EVAL-STANCE02
+    activation_stage: release_200
+    measurement: "5 sub-elements: original_frame_identified / frame_leak_type / alternate_frame / non_blame_shift / actionable_test"
+    note: "5 sub-elements recommended by Codex Q-AGNT-4 adopted"
+  - id: reinforcement_anchor_coverage
+    canonical_id: RUB-03
+    description: "Coverage of canonical_intervention_elements from Mnemo answer"
+    decision_ref: DEC-2026-04-23-EVAL-RL01
+    measurement: "+ 1/N for each element present (primary_anchors carry weight 1.5x)"
+    activation_stage: core_120        # partial inclusion begins
+
+# ------------------------------------------------------------------------------
+# §5. extension_pattern (pending) - gated separately
+# ------------------------------------------------------------------------------
+pending_extension:
+  - id: analysis_paralysis
+    canonical_id: PAT-PEND-01
+    vtype: I
+    decision_ref: DEC-2026-04-23-EVAL-PEND01
+    promotion_condition: "If 3 or more instances are confirmed during W7-8 Core 120 collection, consider promoting to EXT-ADULTEDGE-003"
+    current_count_in_tier_S: 1            # §12.10
+    current_temp_mapping:
+      primary: false_dilemma              # temporary
+      secondary_anchor: analysis_paralysis
+
+# Cognitive domain vocabulary from §5b onward: enums.yaml is the SSOT.
+# This file is dedicated exclusively to Lane 1 operational rules (invariant_trigger, neutral_label, rubric_label, pending_extension).

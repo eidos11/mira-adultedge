@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+title: "MIRA AdultEdge"
+message: >-
+  If you use this software or its theoretical frameworks in academic work,
+  please cite it using the metadata below.
+type: software
+authors:
+  - family-names: "Mnemo"
+    alias: "eidos11"
+    orcid: "https://orcid.org/0009-0005-9709-0851"
+repository-code: "https://github.com/eidos11/mira-adultedge"
+version: "0.2.1"
+date-released: "2026-06-10"
+# identifiers:
+#   - type: doi
+#     value: "10.5281/zenodo.XXXXXXX"   # Zenodo DOI, minted on first GitHub release
+license:
+  - MIT
+  - CC-BY-4.0
+keywords:
+  - cognitive-science
+  - judgment-bias
+  - adult-learning
+  - diagnostic-agent
+  - PSR-theory
+  - coaching
+abstract: >-
+  MIRA (Memory-Imagination-Reason Architecture) is a diagnostic and coaching
+  agent for adult learners, built on the author's original PSR theory of
+  hypothetical judgment. It detects judgment biases in reasoning text using a
+  21-pattern registry, provides 3-axis diagnosis (metacognition, task
+  definition, learning stage), and delivers differentiated coaching reinforced
+  by cognitive-science anchors (ACT-R, dual-process theory, educational
+  psychology).

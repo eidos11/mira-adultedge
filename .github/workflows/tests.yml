@@ -1,0 +1,22 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Run tests
+        # Prolog/LLM extras are intentionally absent: pyswip tests skip,
+        # and external LLM lanes stay off (no MIRA_ENABLE_LANE3) — the suite
+        # is deterministic with no external calls.
+        run: python -m pytest tests/ -q

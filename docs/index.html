@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRA AdultEdge — Research Preview</title>
+    <meta name="description" content="MIRA AdultEdge: calibrated, theory-grounded diagnosis of judgment distortions in adult learning. A neurosymbolic research preview.">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dagre@0.8/dist/dagre.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape@3/dist/cytoscape.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2/cytoscape-dagre.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+               max-width: 1100px; margin: 0 auto; padding: 20px; color: #2a2a2a; line-height: 1.55; }
+        .hero { text-align: center; padding: 30px 0 10px; border-bottom: 2px solid #1565C0; }
+        .hero h1 { font-size: 2.4em; margin: 0 0 8px; color: #0D47A1; }
+        .hero .tagline { font-size: 1.15em; color: #555; margin: 0 auto 14px; max-width: 720px; }
+        .badge { display: inline-block; background: #E3F2FD; color: #0D47A1; border: 1px solid #90CAF9;
+                 border-radius: 20px; padding: 4px 16px; font-size: 0.9em; font-weight: 600; }
+        h2 { color: #1565C0; margin-top: 48px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; }
+        h3 { color: #333; margin-top: 24px; }
+        .lead { font-size: 1.05em; color: #444; }
+        .diff { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin: 20px 0; }
+        .diff-card { background: #f8f9fa; border-radius: 8px; padding: 18px; border-left: 4px solid #1565C0; }
+        .diff-card h4 { margin: 0 0 8px; color: #0D47A1; }
+        .stats { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; }
+        .stat-card { background: #f5f5f5; border-radius: 8px; padding: 16px 22px; text-align: center; flex: 1; min-width: 130px; }
+        .stat-card .number { font-size: 2em; font-weight: bold; color: #1565C0; }
+        .stat-card .label { color: #666; margin-top: 4px; font-size: 0.9em; }
+        table { border-collapse: collapse; width: 100%; margin: 14px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+        th { background: #f5f5f5; }
+        .mermaid { background: #fafafa; border-radius: 8px; padding: 20px; margin: 15px 0; text-align: center; }
+        #cy-pattern { width: 100%; height: 1100px; background: #fafafa; border-radius: 8px; border: 1px solid #ddd; }
+        .legend { display: flex; flex-wrap: wrap; gap: 15px; margin: 10px 0; font-size: 0.9em; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot { width: 14px; height: 14px; border-radius: 50%; }
+        pre.report { background: #1e1e2e; color: #e0e0e0; border-radius: 8px; padding: 18px 22px;
+                     overflow-x: auto; font-size: 0.85em; line-height: 1.5; }
+        .badge-legend { background: #f8f9fa; border-radius: 8px; padding: 14px 18px; margin: 14px 0; font-size: 0.92em; }
+        .badge-legend code { background: #eef; padding: 1px 5px; border-radius: 3px; }
+        .note { background: #fff8e1; border-left: 4px solid #FFA000; padding: 12px 16px; margin: 16px 0; font-size: 0.95em; }
+        .howto { background: #eef4fb; border-left: 4px solid #1565C0; padding: 12px 16px; margin: 14px 0; font-size: 0.93em; line-height: 1.6; }
+        footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid #ddd; color: #777; font-size: 0.9em; text-align: center; }
+        footer a { color: #1565C0; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>MIRA AdultEdge</h1>
+        <p class="tagline">Calibrated, theory-grounded diagnosis of judgment distortions in adult learning</p>
+        <span class="badge">Research Preview · v0.x</span>
+    </div>
+
+    <!-- 1. What -->
+    <section>
+        <h2>What MIRA Does</h2>
+        <p class="lead">Adults learning hard skills routinely misdiagnose <em>why</em> they struggle —
+        "I'm just bad at math," "I lack willpower," "it's this or nothing." These are not motivational
+        slips; they are <strong>structured judgment distortions</strong> that quietly block improvement.</p>
+        <p>Worse, the usual remedy — asking peers online — often <strong>amplifies</strong> the distortion.
+        In an informal internal analysis of public learning-advice threads (106 replies), peer responses
+        <em>reinforced</em> the original bias about a third of the time and <em>corrected</em> it only
+        about a fifth — consistent with external behavioral-science literature.
+        <strong>MIRA exists to provide the calibrated, theory-grounded diagnosis that human advice networks
+        usually don't.</strong></p>
+
+        <h3>What makes it different</h3>
+        <div class="diff">
+            <div class="diff-card">
+                <h4>1 · Original theory (PSR)</h4>
+                Built on an independent theory of hypothetical judgment that decomposes reasoning into
+                <strong>Premise → Strategy → Result</strong>, locating <em>where</em> a distortion enters.
+            </div>
+            <div class="diff-card">
+                <h4>2 · Calibrated, not credulous</h4>
+                A <strong>neurosymbolic architecture</strong>: LLM candidates are <em>verified</em> by Prolog
+                formal rules and rule-based critics. Designed to say "unverified" rather than over-claim.
+                <em>Calibration is the product.</em>
+            </div>
+            <div class="diff-card">
+                <h4>3 · Original-theory-grounded taxonomy</h4>
+                A <strong>21-pattern</strong> judgment-bias registry built on the author's PSR theory as its
+                primary base, reinforced by cognitive-science anchors (ACT-R, Kahneman dual-process) and
+                educational psychology, with pattern-specific Socratic coaching.
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Metrics -->
+    <section>
+        <h2>At a Glance</h2>
+        <div class="stats">
+            <div class="stat-card"><div class="number"><!--stats:patterns-card-->21<!--/stats:patterns-card--></div><div class="label">Diagnostic Patterns</div></div>
+            <div class="stat-card"><div class="number">3</div><div class="label">Verification Lanes</div></div>
+            <div class="stat-card"><div class="number">2 / <!--stats:patterns-verified-card-->21<!--/stats:patterns-verified-card--></div><div class="label">Deductively Verified (Prolog)</div></div>
+            <div class="stat-card"><div class="number">6</div><div class="label">Coaching Patterns</div></div>
+            <div class="stat-card"><div class="number"><!--stats:tests-card-->575<!--/stats:tests-card--></div><div class="label">Tests Passing</div></div>
+            <div class="stat-card"><div class="number">EN · KO</div><div class="label">Bilingual</div></div>
+        </div>
+    </section>
+
+    <!-- 3. Pipeline -->
+    <section>
+        <h2>Diagnostic Pipeline</h2>
+        <p>A learner claim flows through PSR decomposition, 3-lane pattern detection, coaching generation,
+           and a safety-gated report.</p>
+        <pre class="mermaid">
+flowchart LR
+    INPUT["Learner Input<br/>(text claim)"] --> PSR["PSR Decomposition<br/>Premise / Strategy / Result"]
+    PSR --> ROUTE{"Route<br/>vtype?"}
+    ROUTE -->|D: deductive| L1["Lane 1<br/>Rule-based<br/>(contract critic)"]
+    ROUTE -->|I: inductive| L1
+    ROUTE -->|A: abductive| L1
+    L1 --> L2{"Lane 2<br/>Prolog?"}
+    L2 -->|installed| PROLOG["Lane 2<br/>Prolog Verification<br/>(formal logic)"]
+    L2 -->|skip| MERGE
+    PROLOG --> MERGE
+    L1 --> L3{"Lane 3<br/>LLM?"}
+    L3 -->|"enabled"| LLM["Lane 3<br/>LLM Extraction<br/>(GPT/Claude)"]
+    L3 -->|skip| MERGE
+    LLM --> MERGE
+    MERGE["Evidence<br/>Merge"] --> COACHING["System A<br/>Coaching Generation<br/>(Socratic + PSR)"]
+    COACHING --> VIOLATION{"Violation<br/>Check?"}
+    VIOLATION -->|clean| REPORT["Learner Report"]
+    VIOLATION -->|"FORBIDDEN"| FALLBACK["Safe Fallback<br/>Report"]
+    VIOLATION -->|"WILLPOWER<br/>(non-coaching)"| FALLBACK
+
+    style INPUT fill:#E3F2FD,stroke:#1565C0
+    style PSR fill:#E3F2FD,stroke:#1565C0
+    style L1 fill:#FFF3E0,stroke:#E65100
+    style PROLOG fill:#FFF3E0,stroke:#E65100
+    style LLM fill:#FFF3E0,stroke:#E65100
+    style COACHING fill:#E8F5E9,stroke:#2E7D32
+    style REPORT fill:#E8F5E9,stroke:#2E7D32
+    style FALLBACK fill:#FFEBEE,stroke:#C62828
+        </pre>
+        <div class="howto"><strong>How to read:</strong> A learner's claim is first decomposed by <strong>PSR</strong> —
+        pinpointing <em>where</em> in the reasoning (Premise / Strategy / Result) a distortion sits. The same claim is then
+        checked by up to three independent lanes (rule-based / formal-logic / LLM), and <em>only verified signals drive
+        coaching</em>. Detection and verification are deliberately separated, so MIRA can distinguish what it
+        <em>knows</em> from what it merely <em>suspects</em>.</div>
+        <p style="font-size:0.92em; color:#555;"><strong>Safety gate:</strong> the report passes a violation
+        check before output. Verdict language is blocked everywhere; willpower-blame language is blocked in all
+        non-coaching sections. If Lane 2/3 are unavailable, a valid report is still produced from Lane 1 alone
+        (graceful degradation).</p>
+    </section>
+
+    <!-- 4. Architecture -->
+    <section>
+        <h2>Architecture</h2>
+        <p>System A (diagnosis + coaching) and System B (pattern detection) over a shared contract layer.</p>
+        <pre class="mermaid">
+flowchart TB
+    subgraph ENTRY["Entry Layer"]
+        CLI["CLI / API"]
+        PIPE["Pipeline<br/>Orchestrator"]
+    end
+    subgraph SYS_A["System A — Diagnostic Engine"]
+        direction TB
+        AX1["Axis 1: Stage"]
+        AX2["Axis 2: Metacognition"]
+        AX3["Axis 3: Task Definition"]
+        CTX["Context Adapter<br/>(bilingual NLP)"]
+        DIAG["DiagnosticEngine<br/>(3-axis synthesis)"]
+        SKILL["Coaching Content<br/>(6 patterns)"]
+        THEORY["Theory Templates<br/>(ACT-R + Kahneman)"]
+        CTX --> AX1 & AX2 & AX3
+        AX1 & AX2 & AX3 --> DIAG
+        DIAG --> SKILL & THEORY
+    end
+    subgraph SYS_B["System B — Pattern Detection"]
+        direction TB
+        MATCH["Matcher<br/>(21 patterns)"]
+        CRITIC["Contract Critic<br/>(invariant enforcement)"]
+        LANE2["Lane 2: Prolog<br/>(formal verification)"]
+        LANE3["Lane 3: LLM<br/>(natural language)"]
+        MATCH --> CRITIC
+        MATCH --> LANE2
+        MATCH --> LANE3
+    end
+    subgraph SHARED["Shared Layer"]
+        PSR_M["PSR Module<br/>(P/S/R decomposition)"]
+        CONTRACTS["Runtime Contracts<br/>(Pydantic v2)"]
+        REPORT_M["Report Generator<br/>(i18n + safety)"]
+    end
+    CLI --> PIPE
+    PIPE --> PSR_M
+    PIPE --> SYS_A
+    SYS_A -->|"diagnosis"| SYS_B
+    SYS_B -->|"verified patterns"| SYS_A
+    CRITIC --> CONTRACTS
+    SYS_A --> REPORT_M
+    SKILL --> REPORT_M
+
+    style ENTRY fill:#ECEFF1,stroke:#546E7A
+    style SYS_A fill:#E3F2FD,stroke:#1565C0
+    style SYS_B fill:#FFF3E0,stroke:#E65100
+    style SHARED fill:#F3E5F5,stroke:#7B1FA2
+        </pre>
+        <div class="howto"><strong>How to read:</strong> MIRA is a <strong>dual-system</strong> design.
+        <strong>System A</strong> diagnoses <em>the learner</em> — estimating learning stage, metacognitive quality,
+        and task clarity across three axes — and generates Socratic coaching. <strong>System B</strong> detects
+        <em>reasoning patterns</em> — matching against the 21-pattern registry and verifying them across lanes.
+        The <strong>Shared Layer</strong> (PSR decomposition, typed contracts, safety-checked report) connects the two.
+        Separating learner-diagnosis from pattern-detection lets each be verified on its own terms.</div>
+    </section>
+
+    <!-- 5. Pattern System -->
+    <section>
+        <h2>Pattern System</h2>
+        <p>21 diagnostic patterns grouped by verification type (Deductive / Inductive / Abductive).
+           Edges show compound co-occurrence and boundary relationships. Drag to explore.</p>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#1565C0"></div> D-type (Deductive, 6)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#E65100"></div> I-type (Inductive, 9)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#2E7D32"></div> A-type (Abductive, 7)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#C62828"></div> DUAL-use (input+output)</div>
+        </div>
+        <div id="cy-pattern"></div>
+        <div class="howto"><strong>How to read:</strong> The 21 patterns are grouped by the <em>kind of reasoning</em>
+        they distort — <strong>Deductive</strong> (a logical structure is misapplied), <strong>Inductive</strong>
+        (evidence is overgeneralized), <strong>Abductive</strong> (causal attribution is distorted). Red edges mark
+        patterns that frequently <strong>co-occur</strong> (compound); gray dashed edges mark <strong>look-alike pairs</strong>
+        that need differential diagnosis. <strong>willpower_blame</strong> is special: MIRA <em>detects</em> it in a
+        learner's input but is <em>forbidden</em> from ever producing it (Invariant #12) — encoding the principle that
+        <em>structure, not character,</em> explains most failure.</div>
+    </section>
+
+    <!-- 6. Sample Output -->
+    <section>
+        <h2>Sample Output — Calibrated by Design</h2>
+        <p>MIRA's expert report (<code>--format report</code>) surfaces each pattern's <strong>verification
+           level as a badge</strong>, so a reader can tell formal verification from an unverified candidate at a glance.</p>
+        <div class="badge-legend">
+            <strong>Badge legend:</strong>
+            <code>✅ verified</code> — Prolog formal verification passed ·
+            <code>🟡 evidence-assisted</code> — LLM/rule candidate with evidence (not deductively verified) ·
+            <code>✗ rejected</code> — Prolog rejected the match ·
+            <code>○ unverified</code> — candidate without supporting evidence (no over-claim)
+        </div>
+        <pre class="report">
+## Input
+
+&gt; I studied for hours but still failed the exam, so I'm just not smart enough for this subject
+
+## Diagnosis Summary
+
+deductive verification was performed, but no clear match was found among currently executable patterns.
+
+- **genetic fallacy** ○ unverified
+- **false dilemma** ○ unverified
+- **perfectionist fallacy** ○ unverified
+  …
+
+## PSR Decomposition
+
+- Premise (P): medium metacognitive confidence with no named leak
+- Strategy (S): action_goal
+- Result (R): concept
+
+## Confidence &amp; Limits
+
+- Prolog-verified: 0 / LLM-or-rule candidate: 0
+- Of 6 patterns, only 0 underwent Prolog verification.
+- This analysis is an AI-assisted tool; final judgment rests with the learner.
+
+## Metadata
+
+- schema_version: 0.2.1
+- overlay_status: insufficient_evidence
+- lanes active: lane1=active, lane2=inactive, lane3=inactive
+        </pre>
+        <div class="note"><strong>Read this as a feature, not a gap.</strong> In this Lane-1-only run, every
+        candidate is honestly marked <code>○ unverified</code> — MIRA does not over-claim. With Lane 2 (Prolog)
+        and Lane 3 (LLM) enabled, badges reflect the actual verification depth (<code>✅</code> / <code>🟡</code>).</div>
+    </section>
+
+    <!-- 7. Maturity & Roadmap -->
+    <section>
+        <h2>Maturity</h2>
+        <p>MIRA v0.x is a <strong>research preview</strong>: the full diagnose → detect → coach pipeline runs
+           end-to-end and is reproducible, with verification depth <strong>honestly bounded and transparently
+           reported</strong>.</p>
+        <table>
+            <tr><th>Component</th><th>Status</th><th>Detail</th></tr>
+            <tr><td>Pipeline (A→B→A)</td><td>✅ operational</td><td>Full diagnose → detect → coach loop</td></tr>
+            <tr><td>Pattern registry</td><td>✅ <!--stats:patterns-table-->21<!--/stats:patterns-table--> patterns</td><td>19 core + 2 extension</td></tr>
+            <tr><td>Lane 1 — Rule-based critic</td><td>✅ 4 checks</td><td>Contract checks (always active)</td></tr>
+            <tr><td>Lane 2 — Prolog formal</td><td>🟡 2 / 21 verified</td><td><code>false_dilemma</code>, <code>oversimplified_cause</code></td></tr>
+            <tr><td>Lane 3 — LLM extraction</td><td>🟡 14 candidates</td><td>Stage-conditional, evidence-assisted (optional)</td></tr>
+            <tr><td>System A diagnosis</td><td>✅ 3 axes</td><td>metacognition, task_definition, stage</td></tr>
+            <tr><td>Coaching</td><td>✅ 6 patterns</td><td>Socratic 3-stage hybrid</td></tr>
+            <tr><td>Theory grounding</td><td>✅ 3-layer</td><td>ACT-R + Kahneman + educational psychology</td></tr>
+            <tr><td>Tests</td><td>✅ <!--stats:tests-table-->575<!--/stats:tests-table--> passing</td><td>Unit + integration + dogfooding</td></tr>
+        </table>
+        <div class="howto"><strong>How to read:</strong> ✅ = operational, 🟡 = partial or optional. The honesty here
+        is the point: only <strong>2 of 21</strong> patterns carry <em>formal</em> (Prolog) verification today — the rest
+        are LLM/rule candidates. Instead of hiding that, MIRA surfaces it everywhere (see the badges in
+        <em>Sample Output</em> above). For an evaluator, <em>bounded-and-transparent</em> maturity is itself the signal:
+        the system is calibrated to report its own confidence rather than over-claim.</div>
+        <p style="font-size:0.92em; color:#555;"><strong>Honestly:</strong> 2 of 21 patterns have formal Prolog
+        verification; the rest operate through LLM candidate extraction and rule-based checks. Expanding formal
+        coverage is the primary roadmap focus.</p>
+
+        <h3>Roadmap</h3>
+        <table>
+            <tr><th>Stage</th><th>Focus</th></tr>
+            <tr><td><strong>v0.x — Research Preview (now)</strong></td><td>Full pipeline, 21-pattern registry, 2 deductively verified (Prolog), calibrated coaching</td></tr>
+            <tr><td>M2 (~v0.3.x)</td><td>Expand formal verification, typed contracts, more diagnostic axes, expert/HTML output</td></tr>
+            <tr><td>toward v1.0 (production)</td><td>Full RAG, end-to-end tracking, multi-host verification, expert-validated coaching</td></tr>
+        </table>
+        <p style="font-size:0.92em; color:#555;">"1.0" is reserved for production-grade, expert-validated quality —
+        a deliberate bar, not a number to rush.</p>
+    </section>
+
+    <footer>
+        <p>MIRA AdultEdge — a research preview by an independent researcher.<br>
+        Open to research collaboration, advisory, integration partnerships, and sponsorship.</p>
+        <p>
+            <a href="https://github.com/eidos11/mira-adultedge">GitHub</a> ·
+            <a href="https://github.com/eidos11/mira-adultedge/blob/main/VISION.md">Vision</a> ·
+            <a href="https://github.com/eidos11/mira-adultedge/blob/main/README.md">README</a> ·
+            <a href="https://github.com/eidos11/mira-adultedge/blob/main/LICENSE">MIT (code)</a> ·
+            <a href="https://github.com/eidos11/mira-adultedge/blob/main/LICENSE-CONTENT">CC BY 4.0 (content)</a>
+        </p>
+    </footer>
+
+    <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { curve: 'basis' } });
+
+    window.addEventListener('load', function() {
+        try {
+            if (typeof cytoscapeDagre !== 'undefined') { cytoscape.use(cytoscapeDagre); }
+        } catch(e) {}
+
+        var cyEl = document.getElementById('cy-pattern');
+        if (typeof cytoscape !== 'undefined' && cyEl) {
+            var positions = {
+                'genetic_fallacy':       {x:80,   y:120}, 'false_dilemma':          {x:250,  y:120},
+                'appeal_to_authority':   {x:80,   y:250}, 'appeal_to_consequences': {x:250,  y:250},
+                'perfectionist_fallacy': {x:80,   y:380}, 'begging_the_question':   {x:250,  y:380},
+
+                'hasty_generalization':  {x:570,  y:80},  'anecdotal_evidence':     {x:740,  y:80},
+                'prediction_fallacy':    {x:570,  y:200}, 'sunk_cost':              {x:740,  y:200},
+                'composition_fallacy':   {x:570,  y:320}, 'fluency_illusion':       {x:740,  y:320},
+                'effort_heuristic':      {x:570,  y:440}, 'recognition_retrieval_confusion': {x:740, y:440},
+                'social_comparison':     {x:655,  y:560},
+
+                'confusing_explanation_excuse':   {x:1060, y:120}, 'oversimplified_cause':          {x:1230, y:120},
+                'self_serving_attribution':       {x:1060, y:250}, 'identity_protective_reasoning': {x:1230, y:250},
+                'post_hoc_rationalization':       {x:1060, y:380}, 'catastrophizing':               {x:1230, y:380},
+                'willpower_blame':                {x:1145, y:520}
+            };
+            var nodeList = [
+                { data: { id: 'grp-D', label: 'D-type (Deductive)' }, classes: 'group' },
+                { data: { id: 'genetic_fallacy', label: 'genetic\nfallacy', parent: 'grp-D' } },
+                { data: { id: 'false_dilemma', label: 'false\ndilemma', parent: 'grp-D' } },
+                { data: { id: 'appeal_to_authority', label: 'appeal to\nauthority', parent: 'grp-D' } },
+                { data: { id: 'appeal_to_consequences', label: 'appeal to\nconsequences', parent: 'grp-D' } },
+                { data: { id: 'perfectionist_fallacy', label: 'perfectionist\nfallacy', parent: 'grp-D' } },
+                { data: { id: 'begging_the_question', label: 'begging the\nquestion', parent: 'grp-D' } },
+                { data: { id: 'grp-I', label: 'I-type (Inductive)' }, classes: 'group' },
+                { data: { id: 'hasty_generalization', label: 'hasty\ngeneralization', parent: 'grp-I' } },
+                { data: { id: 'anecdotal_evidence', label: 'anecdotal\nevidence', parent: 'grp-I' } },
+                { data: { id: 'prediction_fallacy', label: 'prediction\nfallacy', parent: 'grp-I' } },
+                { data: { id: 'sunk_cost', label: 'sunk\ncost', parent: 'grp-I' } },
+                { data: { id: 'composition_fallacy', label: 'composition\nfallacy', parent: 'grp-I' } },
+                { data: { id: 'fluency_illusion', label: 'fluency\nillusion', parent: 'grp-I' } },
+                { data: { id: 'effort_heuristic', label: 'effort\nheuristic', parent: 'grp-I' } },
+                { data: { id: 'recognition_retrieval_confusion', label: 'recognition\nretrieval confusion', parent: 'grp-I' } },
+                { data: { id: 'social_comparison', label: 'social\ncomparison (EXT)', parent: 'grp-I' } },
+                { data: { id: 'grp-A', label: 'A-type (Abductive)' }, classes: 'group' },
+                { data: { id: 'confusing_explanation_excuse', label: 'confusing\nexplanation excuse', parent: 'grp-A' } },
+                { data: { id: 'oversimplified_cause', label: 'oversimplified\ncause', parent: 'grp-A' } },
+                { data: { id: 'self_serving_attribution', label: 'self-serving\nattribution', parent: 'grp-A' } },
+                { data: { id: 'identity_protective_reasoning', label: 'identity\nprotective reasoning', parent: 'grp-A' } },
+                { data: { id: 'post_hoc_rationalization', label: 'post-hoc\nrationalization', parent: 'grp-A' } },
+                { data: { id: 'catastrophizing', label: 'catastrophizing\n(EXT)', parent: 'grp-A' } },
+                { data: { id: 'willpower_blame', label: 'willpower\nblame (DUAL)', parent: 'grp-A' }, classes: 'dual' }
+            ];
+            nodeList.forEach(function(n) {
+                var p = positions[n.data.id];
+                if (p) n.position = p;
+            });
+            var edgeList = [
+                { data: { source: 'willpower_blame', target: 'oversimplified_cause', label: 'compound' }, classes: 'compound' },
+                { data: { source: 'effort_heuristic', target: 'willpower_blame', label: 'compound' }, classes: 'compound' },
+                { data: { source: 'oversimplified_cause', target: 'effort_heuristic', label: 'co-occur' }, classes: 'compound' },
+                { data: { source: 'fluency_illusion', target: 'recognition_retrieval_confusion', label: 'boundary' }, classes: 'boundary' },
+                { data: { source: 'sunk_cost', target: 'appeal_to_consequences', label: 'boundary' }, classes: 'boundary' }
+            ];
+            var cy = cytoscape({
+                container: cyEl,
+                elements: nodeList.concat(edgeList),
+                style: [
+                    { selector: 'node', style: {
+                        'label': 'data(label)', 'text-wrap': 'wrap', 'text-valign': 'center',
+                        'text-halign': 'center', 'font-size': '14px', 'width': 160, 'height': 70,
+                        'shape': 'roundrectangle', 'background-color': '#E3F2FD',
+                        'border-width': 1.5, 'border-color': '#90CAF9', 'padding': '12px'
+                    }},
+                    { selector: ':parent', style: {
+                        'text-valign': 'top', 'text-halign': 'center', 'font-size': '17px',
+                        'font-weight': 'bold', 'padding': '40px', 'background-opacity': 0.2,
+                        'border-width': 3, 'border-style': 'solid', 'border-opacity': 1.0, 'border-cap': 'round'
+                    }},
+                    { selector: '#grp-D', style: { 'background-color': '#BBDEFB', 'border-color': '#0D47A1' }},
+                    { selector: '#grp-I', style: { 'background-color': '#FFE0B2', 'border-color': '#BF360C' }},
+                    { selector: '#grp-A', style: { 'background-color': '#C8E6C9', 'border-color': '#1B5E20' }},
+                    { selector: 'node[parent="grp-D"]', style: { 'background-color': '#BBDEFB', 'border-color': '#1565C0' }},
+                    { selector: 'node[parent="grp-I"]', style: { 'background-color': '#FFE0B2', 'border-color': '#E65100' }},
+                    { selector: 'node[parent="grp-A"]', style: { 'background-color': '#C8E6C9', 'border-color': '#2E7D32' }},
+                    { selector: '.dual', style: { 'background-color': '#FFCDD2', 'border-color': '#C62828', 'border-width': 3 }},
+                    { selector: 'edge', style: { 'curve-style': 'bezier', 'target-arrow-shape': 'triangle', 'arrow-scale': 1.2 }},
+                    { selector: '.compound', style: {
+                        'line-color': '#C62828', 'target-arrow-color': '#C62828',
+                        'width': 2.5, 'curve-style': 'unbundled-bezier',
+                        'control-point-distances': [60], 'control-point-weights': [0.5],
+                        'label': 'data(label)', 'font-size': '9px', 'color': '#C62828',
+                        'text-background-color': '#fff', 'text-background-opacity': 0.8, 'text-background-padding': '2px'
+                    }},
+                    { selector: '.boundary', style: {
+                        'line-color': '#9E9E9E', 'target-arrow-color': '#9E9E9E',
+                        'target-arrow-shape': 'diamond', 'width': 1.5, 'line-style': 'dashed',
+                        'curve-style': 'unbundled-bezier',
+                        'control-point-distances': [50], 'control-point-weights': [0.5],
+                        'label': 'data(label)', 'font-size': '9px', 'color': '#757575',
+                        'text-background-color': '#fff', 'text-background-opacity': 0.8, 'text-background-padding': '2px'
+                    }}
+                ],
+                layout: { name: 'preset', padding: 30 },
+                wheelSensitivity: 0.3, minZoom: 0.5, maxZoom: 2.5
+            });
+            cy.fit(undefined, 40);
+            cy.zoom(cy.zoom() * 0.9);
+        }
+    });
+    </script>
+</body>
+</html>

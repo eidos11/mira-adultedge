@@ -1,0 +1,83 @@
+# Python venv + cache
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build/packaging artifacts (python -m build outputs; not tracked)
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Tool caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Environment variables / secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# Large raw source corpus kept out of the repo; derived/human subsets are tracked.
+reference/test-bank-src/*
+!reference/test-bank-src/_derived/
+!reference/test-bank-src/_human/
+!reference/test-bank-src/_candidates/
+!reference/test-bank-src/.gitkeep
+
+# CodeGraph (code knowledge graph index, local only)
+.codegraph/
+
+# Claude worktrees (defensive: keep agent worktree cruft out)
+.claude/worktrees/
+
+# Claude plugin runtime state (hooks / hud / tmux / notify state)
+.omx/
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+*:Zone.Identifier
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Batch execution logs (runtime artifacts per round)
+ops/batch/*/logs/
+
+# Scratch workspace
+_scratch/
+
+# Internal working artifacts (not part of deliverable)
+experiments/
+handoff/
+_drafts/
+_inbox/
+.claude/settings.json
+.claude/settings.json.hooks-backup
+reference/_archived-code/
+reference/drafts/
+reference/external-reviews-gpt/
+ops/batch/mira-reform-*/
+ops/batch/skill-research/
+
+# .codex/ instructions are force-tracked (shared SSOT for Codex App + CLI):
+# - .codex/app-instructions.md
+# - .codex/cli-instructions.md
+# (.codex/ itself is not ignored)

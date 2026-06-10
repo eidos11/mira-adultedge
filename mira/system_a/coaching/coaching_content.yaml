@@ -1,0 +1,135 @@
+# AE M1 Coaching Skills — Socratic questioning hybrid templates
+#
+# Design basis (4.7 domain review):
+#   - Socratic guided discovery 3-stage: information → discrepancy → alternative
+#     (Padesky CBT adaptation. action_invitation block serves as practical synthesis)
+#   - MI (Miller & Rollnick): evoke change talk, roll with resistance
+#   - PSR anchor: each pattern maps to a P/S/R stage for structural coaching
+#   - Action invitation (not directive): "You might consider..." not "Do X / You must"
+#
+# Template blocks:
+#   recognition: 1-2 sentences pattern awareness (what)
+#   socratic_inquiry: 3 questions — information/discrepancy/alternative (why, how)
+#   action_invitation: 1 concrete self-check suggestion (synthesis → what next)
+#   self_monitor_signal: 1 sentence — what to notice when pattern recurs
+
+fluency_illusion:
+  pattern_id: PAT-I-06
+  vtype: I
+  psr_coaching_target: P
+  psr_coaching_focus: "Premise (P) — examine the basis of the premise 'I know this'"
+  recognition:
+    ko: "In your response, a tendency is observed to use the familiarity of learning material as evidence of understanding."
+    en: "Your response suggests a tendency to treat familiarity with material as evidence of understanding."
+  socratic_inquiry:
+    - stage: information
+      ko: "When you feel you 'know' this material, what was the basis for that feeling? Could you try distinguishing whether it feels familiar because you have read it, or because you could explain it on your own?"
+    - stage: discrepancy
+      ko: "If you were to close the book right now and write down the key points on a blank page, how much would you be able to write?"
+    - stage: alternative
+      ko: "If there is a gap between familiarity and actual retrieval ability, what methods might you use to verify genuine understanding?"
+  action_invitation:
+    ko: "After your next study session, you might try a 'retrieval practice' exercise — read a section, close the book, and write down the three key points."
+  self_monitor_signal:
+    ko: "The moment you notice a feeling of 'this reads so smoothly' is the signal for this pattern — try asking yourself, 'Is this something I truly know?'"
+
+false_dilemma:
+  pattern_id: PAT-D-02
+  vtype: D
+  psr_coaching_target: S
+  psr_coaching_focus: "Strategy (S) — examine whether the option space has been artificially narrowed"
+  recognition:
+    ko: "In your response, a structure is observed in which the options have been narrowed to two."
+    en: "Your reasoning appears to narrow the option space to two alternatives."
+  socratic_inquiry:
+    - stage: information
+      ko: "What are the two options you are currently considering? Could you take a moment to think about whether those two are truly all the possibilities, or if there might be something you are overlooking?"
+    - stage: discrepancy
+      ko: "If there could be a middle ground between these two options, or an entirely different approach, what comes to mind?"
+    - stage: alternative
+      ko: "If you absolutely had to come up with a third option, what might you try?"
+  action_invitation:
+    ko: "When you catch yourself thinking 'it is either this or that,' you might try designing 'one small experiment' first."
+  self_monitor_signal:
+    ko: "Phrases like 'there is no other way' or 'it is one or the other' are the signals for this pattern."
+
+oversimplified_cause:
+  pattern_id: PAT-A-02
+  vtype: A
+  psr_coaching_target: R
+  psr_coaching_focus: "Result (R) — examine whether the causal attribution has been reduced to a single cause"
+  recognition:
+    ko: "In your response, a tendency is observed to reduce the causes of a complex situation to a single one."
+    en: "Your explanation reduces a multi-factor situation to a single cause."
+  socratic_inquiry:
+    - stage: information
+      ko: "What cause are you currently thinking of? What is your basis for considering it the sole cause?"
+    - stage: discrepancy
+      ko: "If you were to completely remove that cause, would the problem be 100% solved? If not, what other factors might be at play?"
+    - stage: alternative
+      ko: "Among task difficulty, study methods, time allocation, feedback availability, and environment, might there be another factor that actually contributed?"
+  action_invitation:
+    ko: "When you find yourself reaching for a single explanation, you might try the exercise of listing 'at least three factors.'"
+  self_monitor_signal:
+    ko: "When your sentence ends with 'it is because of...,' that is the signal for this pattern — try asking yourself, 'Is that really the only cause?'"
+
+sunk_cost:
+  pattern_id: PAT-I-04
+  vtype: I
+  psr_coaching_target: R
+  psr_coaching_focus: "Result (R) — examine whether past investment, rather than future expected value, is being used as the basis for a decision"
+  recognition:
+    ko: "In your response, a tendency is observed to use already-invested time or effort as the primary justification for continuing the current strategy."
+    en: "Your reasoning uses past investment as justification for continuing a strategy with uncertain future value."
+  socratic_inquiry:
+    - stage: information
+      ko: "Of everything you have invested so far, what feels most difficult to let go of?"
+    - stage: discrepancy
+      ko: "If you imagined that you had invested nothing up to this point, would you make the same choice?"
+    - stage: alternative
+      ko: "Looking only at the next two weeks, which would return more — continuing with the current approach or trying a new one?"
+  action_invitation:
+    ko: "When facing an important decision, you might try asking yourself the question 'If I look only at what is ahead from this point?' first."
+  self_monitor_signal:
+    ko: "Phrases like 'I have come this far' or 'I have already put in so much' are the signals for this pattern."
+
+effort_heuristic:
+  pattern_id: PAT-I-07
+  vtype: I
+  psr_coaching_target: P
+  psr_coaching_focus: "Premise (P) — examine whether the fact of 'having worked hard' is being used as evidence for 'having improved'"
+  recognition:
+    ko: "In your response, a tendency is observed to use the quantity of effort invested as direct evidence of learning outcomes."
+    en: "Your self-assessment appears to equate effort quantity with capability improvement."
+  socratic_inquiry:
+    - stage: information
+      ko: "What activity took the most time in your recent studying? What specifically changed as a result of that activity?"
+    - stage: discrepancy
+      ko: "If there can be a difference between 'having worked hard' and 'having improved,' how might you distinguish between the two?"
+    - stage: alternative
+      ko: "Even with the same amount of time, what kind of practice method might help you better confirm actual change?"
+  action_invitation:
+    ko: "After studying, you might try writing in one sentence: 'What is different today?' If you find you cannot, that could be a signal to review your practice method."
+  self_monitor_signal:
+    ko: "The moment you feel 'I worked hard, so it is probably fine' is the signal for this pattern."
+
+willpower_blame:
+  pattern_id: PAT-DUAL-01
+  vtype: A
+  psr_coaching_target: R
+  psr_coaching_focus: "Result (R) — examine whether the cause of failure is being attributed to character or willpower deficits, thereby blocking structural improvement pathways"
+  recognition:
+    ko: "In your response, a tendency is observed to attribute the causes of learning difficulties to willpower or character deficits."
+    en: "Your self-assessment attributes learning difficulties to character or willpower deficits rather than structural factors."
+  socratic_inquiry:
+    - stage: information
+      ko: "In the situation you are struggling with now, have you considered any factors other than 'I am lazy' or 'I lack willpower'?"
+    - stage: discrepancy
+      ko: "If a person with the same willpower were in a different environment — say, with clearer tasks, shorter units, or immediate feedback — could the outcome be different?"
+    - stage: alternative
+      ko: "Instead of willpower, which of the following could you actually change: task structure, time allocation, feedback availability, or study method?"
+  action_invitation:
+    ko: "When the thought 'I am just lazy' comes up, you might try rephrasing the question to 'What structural change could help?'"
+  self_monitor_signal:
+    ko: "Phrases like 'that is just how I am' or 'I lack the willpower' are the signals for this pattern — try looking for environmental variables rather than blaming character."
+  compound_alert: "High co-occurrence rate with oversimplified_cause. When detected simultaneously, apply the structural-reattribution protocol — reattribute from character-based explanation to structural variables."

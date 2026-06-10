@@ -1,0 +1,254 @@
+# Cognitive domain vocabulary - layers, emotions, intent, ambiguity, disguise types
+# ------------------------------------------------------------------------------
+# THEORETICAL FOUNDATION
+#
+# This specification is grounded in an original theoretical framework developed
+# by the project founder (Mnemo), NOT derived from existing cognitive science
+# traditions. Three core theoretical documents underlie this spec:
+#   - Doc 0: Human and civilization (ontological base; hypothesis-based judgment,
+#             basic emotions, deception taxonomy)
+#   - Doc 1: Hypothesis-based judgment (mechanism of judgment formation,
+#             self/other deception, falsification/concealment)
+#   - Doc 2: Sensation, memory, imagination (4-layer diagnostic model)
+#
+# These documents are not publicly distributed. For theoretical clarifications,
+# contact the founder directly.
+#
+# KEY SCOPE DECLARATIONS:
+#
+# 4-layer model (cognitive_layers) - diagnostic dimension for learner
+# self-report, NOT a cognitive processing theory. The ordering
+# (sensory -> memory -> imagination -> reasoning) reflects how learners
+# mis-identify their own attainment level, not a neural processing sequence.
+#
+# hypothesis-based judgment - a founder-original concept distinct from
+# Popper's scientific theory-testing method. Refers to the human cognitive
+# mechanism by which judgment forms on insufficient evidence, driven by
+# intent. Academic parallels (Peirce's abduction, Bayesian reasoning) are
+# reference anchors only, not primary sources.
+#
+# concealment / falsification - a founder-original binary taxonomy of
+# deception mechanisms. "Falsification" here is NOT Popper's scientific
+# testability principle. It denotes transformation-based deception
+# (fabrication, manipulation, interpretive distortion), contrasted with
+# concealment (omission-based deception). Alternative label: "alteration"
+# (emphasizes modification of existing content; see Doc 0 deception section
+# for full scope).
+#
+# adaptive_function framework - patterns are analyzed at two levels:
+# individual cognitive misfire AND social-evolutionary adaptive origin.
+# Both levels are necessary for full diagnostic and intervention design.
+#
+# ACADEMIC PARALLELS throughout this spec serve as reference anchors and
+# secondary validation only. The founder's theoretical framework is the
+# primary source. Where tension exists, founder's framework takes precedence.
+#
+# For extended theoretical explanation of any concept, request from founder.
+# ------------------------------------------------------------------------------
+# NOTE: "cognitive_layers" is a learner self-report diagnostic dimension,
+# NOT a cognitive processing theory. The four layers — sensory, memory,
+# imagination, reasoning — represent attainment levels that learners can
+# meaningfully distinguish when reporting their own comprehension depth.
+# Diagnostic intent: detect claimed_layer > actual_layer (the core mechanism
+# of fluency_illusion, recognition_retrieval_confusion, and related patterns).
+# Academic parallels for reference only: loosely maps to Bloom's taxonomy
+# (knowledge → comprehension → application → synthesis), and to perceptual
+# fluency research (Reber & Schwarz); the diagnostic purpose and layering
+# rationale are distinct from both. Founder source: Doc 2.
+cognitive_layers:
+  - id: sensory
+    description: "Sensory - direct information input (reading, listening, viewing). Surface-level recognition of text."
+    order: 1
+  - id: memory
+    description: "Memory - retained sensory information. Cognitive familiarity (recognition)."
+    order: 2
+  - id: imagination
+    description: "Imagination - active simulation and scenario construction (reproduction of real-world application)."
+    order: 3
+  - id: reasoning
+    description: "Reasoning - the refinement and systematization of imagination (mastery)."
+    order: 4
+note_cognitive_layers: |
+  Core definition of fluency_illusion / recognition_retrieval_confusion:
+  The learner mistakes reaching a lower layer (sensory/memory) for reaching a higher layer (imagination/reasoning)
+  -> claimed_layer > actual_layer.
+note_sensory_layer_design_intent: |
+  Design rationale for sensory as an independent layer (aligned with Phase 0.5 reinforce-deep 2026-04-28):
+  In major academic cognitive models (Kahneman dual-process / Baddeley working memory /
+  Tulving memory taxonomy), sensory is treated as an input channel, not an independent processing layer. This spec is
+  framed not from a cognitive science standpoint but from a "learner self-report diagnostic dimension" standpoint - when learners
+  diagnose which layer they have reached, distinguishing 'sensory recognition (reading/viewing)' from 'memory recognition'
+  is diagnostically useful. Partially supported by ELM (Petty & Cacioppo 1986) peripheral/central route
+  + perceptual processing fluency research (Reber & Schwarz, Springer 2022).
+  Thus, treating sensory as an independent layer is justified from the perspective of a learner self-diagnostic tool.
+
+# ------------------------------------------------------------------------------
+# §5c. Basic Emotion enum (v2 newly added, aligned with Doc 0 §Emotion)
+#      DEC-2026-04-27-EVAL-CALIB-V2: pattern-specific trigger emotion can be specified
+# ------------------------------------------------------------------------------
+# NOTE: "basic_emotions" follows Doc 0 §affect (founder's theoretical base).
+# The current 4-type structure (fear / joy / anger / sadness) reflects the
+# founder's framework; a potential 5th type (shame) is under evaluation
+# pending Eval-0 data. Cross-cultural note: in Confucian-heritage learning
+# contexts (e.g., Korean graduate learners), shame operates as an independent
+# dimension not reducible to fear or sadness — see Kim & Turner (2025).
+# Academic parallels for reference: Ekman's basic emotion theory (6 universal
+# emotions), Pekrun's control-value theory of academic emotions (8 types
+# including anxiety, boredom, hope). These are secondary anchors; founder's
+# framework is primary.
+basic_emotions:
+  - id: fear
+    description: "Fear - extreme crisis response. catastrophizing trigger."
+    pattern_role_examples: [catastrophizing]
+  - id: joy
+    description: "Joy - favorable situation plus hormonal reward. Familiarity over-trust."
+    pattern_role_examples: [fluency_illusion]
+  - id: anger
+    description: "Anger - aggressive disposition toward the agent that caused an unfavorable situation."
+    pattern_role_examples: [willpower_blame, sunk_cost]
+  - id: sadness
+    description: "Sadness - acceptance of an irreversible bad situation plus steeling of resolve."
+    pattern_role_examples: [sunk_cost, willpower_blame]
+note_basic_emotions_korean_limitation: |
+  Cross-cultural limitation (Phase 0.5 reinforce-deep 2026-04-28):
+  Compared with Pekrun control-value theory's 8 academic emotions (enjoyment, hope, pride,
+  anxiety, anger, hopelessness, boredom, shame), the present 4 basic emotions provide only partial coverage. In particular,
+  within Korean/Confucian heritage learning contexts (Kim & Turner 2025 study of Korean doctoral students and shame),
+  **shame has been identified as an independent dimension** that cannot be reduced to fear or sadness. A decision on adding
+  a 5th emotion (shame) to this enum is deferred pending Eval-0 data - decision to be made based on Eval-0 frequency data
+  (DEC-CALIB-V2 decision 3, 2026-04-28).
+  During Eval-0 labeling, explicit collection of shame / shame-signal expressions in learner utterances is recommended.
+
+# ------------------------------------------------------------------------------
+# §5d. Intent Layer enum (v2 newly added, aligned with Doc 1 §Deception and Fraud)
+#      DEC-2026-04-27-EVAL-CALIB-V2: the same structure differs in essence by intent
+# ------------------------------------------------------------------------------
+# NOTE: "hypothesis-based judgment" is a founder-original concept (Mnemo, 2024).
+# It describes the universal human cognitive mechanism by which judgment forms
+# and becomes operative even under insufficient supporting evidence, driven by
+# the agent's intent. It is the shared mechanism underlying both deception
+# (swindling, self-deception) and civilization formation (collective belief-
+# driven action). It runs parallel to Popper's scientific theory-testing method
+# but is independent: Popper addresses scientific theory testing; hypothesis-
+# based judgment addresses the everyday formation and stabilization of human
+# judgment regardless of evidential warrant. Academic reference anchors:
+# Whewell (consilience of inductions), Peirce (abduction / inference to best
+# explanation), Bayesian reasoning - all secondary, not primary sources.
+# NOTE: "intent_layers" classifies the intent underlying a learner's expressed
+# reasoning distortion. Intent is treated as a necessary condition for
+# deception classification, consistent with deception literature (Carson 2010,
+# Mahon 2016: intent to create false belief = definitional for lying/deception).
+# The self_deceptive category acknowledges that self-deception may be conscious
+# or unconscious - this intentionality question remains an open philosophical
+# problem; the label "(conscious or unconscious)" is therefore explicit in all
+# self_deceptive descriptions. truth_seeking_error marks cases where the
+# learner's intent is genuine truth-pursuit but the cognitive mechanism produces
+# distortion anyway - these are mechanistic errors, not deception.
+# Founder source: Doc 1 fraud and deception section.
+intent_layers:
+  - id: truth_seeking_error
+    description: "Cognitive error arising in the course of truth-seeking. Intent is truth-directed; outcome is distorted."
+  - id: self_deceptive
+    description: "Self-deception (conscious or unconscious). Self-protective and rationalizing intent blocks genuine cognition of truth."
+  - id: other_deceptive
+    description: "Other-deception (calculated). Surface rationality and morality are instrumentalized."
+  - id: mixed
+    description: "Mixed signals (e.g., truth_seeking + self_deceptive blend)."
+  - id: unclear
+    description: "Intent cannot be identified. Additional evidence required."
+
+# ------------------------------------------------------------------------------
+# §5d-bis. Case Ambiguity Level enum (L5 partial, Phase 0.5 recommendation 2026-04-28)
+#          DEC-2026-04-27-EVAL-CALIB-V2: full L5 is Phase 2; this partial enum applies immediately
+# ------------------------------------------------------------------------------
+case_ambiguity_levels:
+  - id: simple
+    description: "Simple case - most people can judge accurately (aligned with Doc 1 §Cognition)"
+  - id: moderate
+    description: "Requires careful examination - some boundary signals present"
+  - id: complex_ambiguous
+    description: |
+      Complex / ambiguous case - most people misjudge it, exhibiting the folly of strong conviction (Doc 1 §Cognition).
+      Multi-layered intersection of intent + cognitive + disguise prevents any conclusion from simple surface analysis.
+note_case_ambiguity_partial_application: |
+  This partial enum is to be applied immediately before fully introducing Phase 2 L5 (mass_judgment_predicted_accuracy refinement)
+  (recommended by Phase 0.5 gap-analysis P1-05). During Stage 3 selection,
+  complex_ambiguous cases show high discriminative power - consider applying a weighting factor.
+
+# ------------------------------------------------------------------------------
+# §5e. Disguise Type enum - intentional deception sub-types (v2 newly added, DEC-2026-04-30 founder's intent updated)
+#
+# Intentionality is the classificatory essence (DEC-2026-04-30): all 4 sub-types reside within the intentional deception layer.
+#    disguise_signature is mandatory when intent_layer in {self_deceptive, other_deceptive} (Rule 5.3a-1)
+#
+# The 4 sub-types are content types - all are sub-forms under the intentionality trigger.
+#    Founder's intent (2026-04-30): "Disguise and falsification are fundamentally similar. Falsification is more rigorous.
+#       Disguise is commonly used in the value-connection context (good and evil) - disguise = the intentional and contextual expression of falsification"
+#
+# founder_source: Doc 1 deception mechanism + good and evil section (disguise = value-dimensional manifestation of falsification)
+#
+# Academic alignment: deception necessary condition = intent (Carson, Williams, Mahon)
+# Evolutionary power source: Trivers self-deception adaptation + social mechanism (supplementary §1)
+#
+# At v3, consider restructuring the enum with an intentionality-intensity layer (high/moderate/low intent layer)
+# ------------------------------------------------------------------------------
+# NOTE: "falsification" is a founder-original deception category
+# (Doc 0 deception; Doc 1 fraud and deception). It is the binary counterpart
+# of concealment: where concealment operates through omission,
+# falsification operates through transformation - fabricating what does not
+# exist, manipulating what does, or distorting the interpretation of what is
+# present. The core principle is that all non-concealment deception achieves
+# its effect through transformation: making something appear as something it
+# is not. Sub-types: self-falsification (physical/material alteration) and
+# interpretive falsification (semantic/meaning distortion). Alternative label:
+# "alteration" (emphasizes modification of existing content, but does not fully
+# cover the creation-from-nothing aspect). THIS IS NOT Popper's scientific
+# testability principle. The two concepts share only the root word.
+# NOTE: "disguise_types" enumerates the four content sub-types of intentional
+# deception as they manifest within value-laden social contexts. All four
+# sub-types (value_production / methodology / indifference / exploration) are
+# founder-original categories (Doc 0 good and evil, Doc 1 fraud and deception);
+# they have no direct 1:1 correspondence in academic deception typologies.
+# Conceptual anchor: disguise is the value-contextual expression of
+# falsification - it is falsification enacted through socially recognized
+# frames (productivity, rigor, neutrality, inquiry) to render deceptive intent
+# less visible. Intentionality is the defining criterion: all four types
+# presuppose intent_layer in {self_deceptive, other_deceptive} (Rule 5.3a-1).
+disguise_types:
+  - id: value_production_disguise
+    description: "Doing evil while presenting value production and contribution at the forefront (Doc 1 §Good and Evil - higher-order evil). Intentionality intensity: high (direct founder source anchor)."
+  - id: methodology_disguise
+    description: "Responsibility avoidance and stalling, surfaced as methodological scrutiny and pursuit of accuracy. Intentionality intensity: moderate (mostly self_deceptive)."
+  - id: indifference_disguise
+    description: "Disguising active avoidance as mere indifference - as if simply minding one's own business. Intentionality intensity: moderate."
+  - id: exploration_disguise
+    description: "Intentional information gathering and opportunity seeking, surfaced as simple exploration or curiosity. Intentionality intensity: low-moderate (boundary with curiosity)."
+
+# ------------------------------------------------------------------------------
+# §6. Tier A Primary Targets (W4 first rules)
+# ------------------------------------------------------------------------------
+tier_A_primary_4:
+  - false_dilemma
+  - oversimplified_cause
+  - effort_heuristic
+  - fluency_illusion          # Critical gap - top-priority Tier A acquisition target
+
+# ------------------------------------------------------------------------------
+# §7. Cross-References
+# ------------------------------------------------------------------------------
+references:
+  rule_fixture_protocol: "manifests/system-b/rule_fixture_protocol.md §5"
+  test_bank_spec: "manifests/system-b/test_bank_spec.md §1"
+  eval_constitution: "manifests/system-b/eval_constitution.md §7"
+  decision_log:
+    - DEC-2026-04-24-EVAL-REGISTRY01
+    - DEC-2026-04-23-EVAL-NEUTRAL01
+    - DEC-2026-04-23-EVAL-PEND01
+    - DEC-2026-04-23-EVAL-RL01
+    - DEC-2026-04-23-EVAL-STANCE02
+    - DEC-2026-04-27-EVAL-CALIB-V2     # v2 multi-layer calibration spec
+    - DEC-2026-04-30-OPINION-LAYER-PARTITION-V2
+    - DEC-2026-04-30-THEORY-SPEC-SEPARATION  # theory/spec separation doctrine
+    - DEC-2026-04-30-THEORY-SPEC-LINKAGE-RECORDING  # source/basis tracking mechanism
+    - DEC-2026-04-30-FOUNDER-THEORY-EVOLUTION  # founder theory as evolving work
+  theory_basis: "founder theory documents (Doc 0-2, unpublished)"  # v2 spec theoretical basis

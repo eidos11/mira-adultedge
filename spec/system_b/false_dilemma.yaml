@@ -1,0 +1,16 @@
+# System B pattern detection spec — false_dilemma (PAT-D-02)
+# Declares WHAT to detect; HOW is in mira/system_b/rules/prolog/false_dilemma.pl
+
+pattern_id: false_dilemma
+canonical_id: PAT-D-02
+vtype: D
+psr_coaching_target: P
+
+detection_criteria:
+  trigger: "binary framing of multi-option situation"
+  indicators:
+    - "only two options presented"
+    - "either/or language without middle ground"
+    - "forced choice between extremes"
+
+prolog_rule: mira/system_b/rules/prolog/false_dilemma.pl
