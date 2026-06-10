@@ -26,8 +26,9 @@ All notable changes to MIRA AdultEdge will be documented in this file.
   (`--lang en/ko`)
 - Theory-grounded coaching for each actively detected pattern
 - Public dashboard (GitHub Pages, `docs/index.html`)
-- 575 automated tests collected — 557 passing, 18 skipped without the
-  optional SWI-Prolog runtime; deterministic, no live API calls
+- 575 automated tests collected — as distributed, 555 passing, 20 skipped
+  (skips: optional SWI-Prolog runtime absent, plus two third-party-derived
+  eval fixtures that are not redistributed); deterministic, no live API calls
 - CI: pytest workflow + documentation statistics check (`tools/stats.py`
   computes public counts from one source and verifies them)
 - MIT license (code) + CC BY 4.0 (theory/design content)

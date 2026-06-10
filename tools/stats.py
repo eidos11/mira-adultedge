@@ -62,6 +62,9 @@ class Target:
     render: str  # "floor" | "exact"
     mechanism: str  # "html_marker" | "yaml_field" | "soft_text"
     yaml_key: tuple = field(default_factory=tuple)
+    # Internal-only surfaces (e.g. README_Index.md) are not distributed in the
+    # public repository; an optional target is skipped when its file is absent.
+    optional: bool = False
 
 
 class MarkerError(ValueError):
@@ -125,10 +128,13 @@ def _default_runner(repo_root: Path, junit_path: str) -> int:
 
 
 def compute_tests(repo_root: Path, runner=_default_runner) -> int:
-    """Passed-test count from a clean full run.
+    """Collected-test count from a clean full run (zero failures / errors).
 
     A non-zero exit or any failure/error refuses to report a count, so a broken
-    suite can never silently lower the published number.
+    suite can never silently inflate the published number. Skips are allowed
+    and do not lower it: optional runtimes (SWI-Prolog) and undistributed
+    third-party-derived fixtures skip in some environments, and the published
+    count must be identical in every environment that runs the suite cleanly.
     """
     fd, junit = tempfile.mkstemp(prefix="mira-stats-", suffix=".xml")
     os.close(fd)
@@ -140,7 +146,7 @@ def compute_tests(repo_root: Path, runner=_default_runner) -> int:
                 "pytest did not pass cleanly "
                 f"(exit={rc}, failures={data['failures']}, errors={data['errors']})"
             )
-        return data["passed"]
+        return data["tests"]
     finally:
         try:
             os.unlink(junit)
@@ -308,6 +314,7 @@ def load_targets(path: Path):
             render=t["render"],
             mechanism=t["mechanism"],
             yaml_key=tuple(t.get("yaml_key", ())),
+            optional=bool(t.get("optional", False)),
         )
         for t in data.get("targets", [])
     ]
@@ -341,6 +348,8 @@ def apply_targets(repo_root: Path, stats: Stats, targets, min_floor: int, write:
     diffs = {}
     for fname, ftargets in by_file.items():
         path = repo_root / fname
+        if not path.exists() and all(t.optional for t in ftargets):
+            continue
         original = path.read_text(encoding="utf-8")
         updated = _apply_to_text(original, ftargets, stats, min_floor)
         if updated != original:
@@ -360,6 +369,8 @@ def check(repo_root: Path, stats: Stats, targets, min_floor: int) -> list:
     for fname, ftargets in by_file.items():
         path = repo_root / fname
         if not path.exists():
+            if all(t.optional for t in ftargets):
+                continue
             errors.append(f"{fname}: target file missing")
             continue
         text = path.read_text(encoding="utf-8")

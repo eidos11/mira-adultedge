@@ -88,10 +88,13 @@ def _is_assertive(coaching_block: str) -> bool:
     return False
 
 
+def _case_path(case_id: str) -> pathlib.Path:
+    return _ALPHA_DIR / f"{case_id}.txt"
+
+
 def _run_case(case_id: str):
     """Load a named alpha-test case and run it through the full pipeline."""
-    path = _ALPHA_DIR / f"{case_id}.txt"
-    text = path.read_text()
+    text = _case_path(case_id).read_text()
     return run_minimal_loop(text)
 
 
@@ -105,6 +108,24 @@ NEU_CASES = [
     "C06-reddit-neu-studying-metacognition",
     "C07-reddit-neu-med-student-exam",
 ]
+
+# Self-authored (A-tier) fixtures ship with the public repository; the
+# third-party-derived (C-tier, Reddit) fixtures are not redistributed.
+# Tests over the NEU corpus therefore run on whatever subset is present,
+# but the self-authored pair is the minimum gate and must always exist.
+_REQUIRED_NEU_CASES = {
+    "A01-willpower-false-positive",
+    "A04-neu-healthy-reasoning",
+}
+
+
+def _available_neu_cases() -> list:
+    available = [c for c in NEU_CASES if _case_path(c).exists()]
+    missing_required = _REQUIRED_NEU_CASES - set(available)
+    assert not missing_required, (
+        f"self-authored NEU fixture(s) missing, gate cannot run: {sorted(missing_required)}"
+    )
+    return available
 
 # ---------------------------------------------------------------------------
 # NEU FP regression tests (primary gate)
@@ -124,6 +145,8 @@ class TestNEUFalsePositiveRegression:
     @pytest.mark.parametrize("case_id", NEU_CASES)
     def test_neu_case_not_assertive(self, case_id: str) -> None:
         """NEU/healthy case must NOT produce assertive coaching (FP=0 target)."""
+        if not _case_path(case_id).exists():
+            pytest.skip(f"{case_id}: third-party-derived fixture not redistributed publicly")
         result = _run_case(case_id)
         cb = _coaching_block(result.report)
 
@@ -135,9 +158,9 @@ class TestNEUFalsePositiveRegression:
         )
 
     def test_all_neu_cases_fp_count_zero(self) -> None:
-        """Aggregate gate: total assertive-coaching count across all 4 NEU cases = 0."""
+        """Aggregate gate: total assertive-coaching count across available NEU cases = 0."""
         fp_cases = []
-        for case_id in NEU_CASES:
+        for case_id in _available_neu_cases():
             result = _run_case(case_id)
             cb = _coaching_block(result.report)
             if _is_assertive(cb):
@@ -176,7 +199,7 @@ class TestRouteIndependence:
     def test_neu_route_a_not_assertive(self) -> None:
         """NEU cases with route=A must not be assertive (old FP path)."""
         route_a_neu = []
-        for case_id in NEU_CASES:
+        for case_id in _available_neu_cases():
             result = _run_case(case_id)
             if result.overlay.route_vtype == "A":
                 cb = _coaching_block(result.report)
@@ -190,7 +213,7 @@ class TestRouteIndependence:
     def test_neu_route_d_not_assertive(self) -> None:
         """NEU cases with route=D must not be assertive (old silent-for-wrong-reason path)."""
         route_d_neu = []
-        for case_id in NEU_CASES:
+        for case_id in _available_neu_cases():
             result = _run_case(case_id)
             if result.overlay.route_vtype == "D":
                 cb = _coaching_block(result.report)

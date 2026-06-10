@@ -25,5 +25,5 @@ SOFTWARE.
 Note: This MIT license applies to the software code: mira/ (Python source)
 and tests/. The knowledge content — theoretical frameworks, design documents,
 the pattern registry (spec/), and the coaching/theory knowledge files
-(mira/system_a/skills/*.yaml) — is licensed separately under CC BY 4.0,
+(mira/system_a/coaching/*.yaml) — is licensed separately under CC BY 4.0,
 regardless of directory. See LICENSE-CONTENT for details.

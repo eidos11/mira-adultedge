@@ -1,0 +1,41 @@
+adult_learning:
+  concept:
+    ko: ["배우고 싶다", "시작하려고", "처음", "입문"]
+    en: ["want to learn", "getting started", "beginner", "what is"]
+  framework:
+    ko: ["이해했다", "구조를 잡았다", "정리했다", "체계를 세웠다"]
+    en: ["I understand the structure", "I organized", "mapped out"]
+  practice:
+    ko: ["연습하고 있다", "문제를 풀고 있다", "예제를 해보고"]
+    en: ["practicing", "solving problems", "working through exercises"]
+  reality:
+    ko: ["실제 업무에 적용", "프로젝트에서 사용", "결과를 냈다"]
+    en: ["applied at work", "used in project", "got results"]
+
+governance:
+  concept:
+    ko: ["제안", "구상", "아이디어", "검토 필요"]
+    en: ["proposal", "ideation", "brainstorm", "needs review"]
+  framework:
+    ko: ["설계", "계획 수립", "기준 정의", "아키텍처"]
+    en: ["specification", "design", "architecture", "criteria defined"]
+  practice:
+    ko: ["시범", "파일럿", "실험", "MVP", "프로토타입"]
+    en: ["pilot", "prototype", "experiment", "MVP", "trial"]
+  reality:
+    ko: ["운영", "배포", "정착", "enforcement", "production"]
+    en: ["production", "deployment", "enforcement", "established"]
+
+decision:
+  concept:
+    ko: ["논의 중", "의견 수렴", "문제 인식"]
+    en: ["under discussion", "gathering input", "problem identified"]
+  framework:
+    ko: ["대안 비교", "기준 설정", "trade-off 분석"]
+    en: ["comparing alternatives", "criteria set", "trade-off analysis"]
+  practice:
+    ko: ["시범 적용", "제한적 실행", "검증 중"]
+    en: ["limited rollout", "testing", "validating"]
+  reality:
+    ko: ["확정", "전면 시행", "정책화"]
+    en: ["finalized", "full implementation", "policy enacted"]
