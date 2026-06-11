@@ -127,10 +127,13 @@ the repository supports it.
   <!--stats:tests-->500+<!--/stats:tests--> tests, reproducible. MIT-licensed code.
 - **Research foundation (progressive, `/research`):** research write-ups behind
   the system — guide chapters, pattern derivations, methodology notes. CC BY 4.0 —
-  open, with attribution. First planned landings include key chapters of the
-  English adult-learning guide behind Domain Pack v1. The author's core theory
-  memos (Docs 0–2) remain unpublished pending the academic write-up; `spec/`
-  carries their operational form.
+  open, with attribution (one directory-level exception: the Howstudy guide
+  corpus under `/research/howstudy` is CC BY-NC 4.0, as its full Korean edition
+  is headed for commercial publication). The first landing is in place: the
+  complete English adult-learning guide behind Domain Pack v1, the core part of
+  its Korean source edition, and the 2003–2007 origin documents. The author's
+  core theory memos (Docs 0–2) remain unpublished pending the academic write-up;
+  `spec/` carries their operational form.
 
 You can *run and verify* MIRA today, and *understand and build on* its depth as
 the foundation lands.

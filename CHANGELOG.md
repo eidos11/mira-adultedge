@@ -2,6 +2,21 @@
 
 All notable changes to MIRA AdultEdge will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- `research/howstudy/` — the Howstudy guide corpus lands: the complete English
+  adult-learning guide behind Domain Pack v1 (revised edition; front matter,
+  16 chapters, appendices A–E, grouped by part), the core part of its Korean
+  source edition (각론 §6–§9; the full Korean edition is reserved for
+  publication), and the 2003–2007 origin documents (HS-ogn). Licensed
+  CC BY-NC 4.0 as a directory-level exception to the CC BY 4.0 content
+  license (`research/howstudy/LICENSE`).
+
+### Fixed
+- LICENSE-CONTENT scope list referred to `reference/` — the published
+  directory is `research/`
+
 ## [0.2.2] - 2026-06-10 (Pre-publication review fixes)
 
 Corrections from a three-party independent pre-publication review (author /

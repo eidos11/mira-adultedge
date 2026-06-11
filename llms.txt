@@ -5,7 +5,7 @@
 - Name: MIRA AdultEdge
 - Type: Judgment-bias diagnostic agent — original PSR theory base with cognitive-science anchors
 - Version: 0.2.2 (alpha)
-- License: MIT (code) + CC BY 4.0 (theory/design)
+- License: MIT (code) + CC BY 4.0 (theory/design) + CC BY-NC 4.0 (research/howstudy guide corpus)
 - Python: 3.12+
 
 ## What It Does
@@ -27,6 +27,7 @@ MIRA analyzes learner-produced text to identify judgment biases using a 3-stage 
 - spec/shared/pattern_registry.yaml — Pattern definitions (SSOT)
 - spec/shared/enums.yaml — Cognitive domain enumerations
 - spec/shared/invariants.yaml — Safety invariants
+- research/howstudy/ — Adult-learning guide corpus behind Domain Pack v1 (complete English edition + Korean core + 2003 origin documents)
 
 ## Entry Points
 - CLI: python -m mira "text" (--lang en/ko, --format text/json)
