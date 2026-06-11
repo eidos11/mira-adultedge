@@ -4,7 +4,7 @@
 ## Identity
 - Name: MIRA AdultEdge
 - Type: Judgment-bias diagnostic agent — original PSR theory base with cognitive-science anchors
-- Version: 0.2.2 (alpha)
+- Version: 0.2.3 (alpha)
 - License: MIT (code) + CC BY 4.0 (theory/design) + CC BY-NC 4.0 (research/howstudy guide corpus)
 - Python: 3.12+
 

@@ -2,7 +2,7 @@
 
 All notable changes to MIRA AdultEdge will be documented in this file.
 
-## [Unreleased]
+## [0.2.3] - 2026-06-11 (Research corpus landing)
 
 ### Added
 - `research/howstudy/` — the Howstudy guide corpus lands: the complete English
@@ -14,6 +14,8 @@ All notable changes to MIRA AdultEdge will be documented in this file.
   license, with additional permissions (CC+) allowing commercial use of
   excerpts and transformative adaptations for HS-ogn and the English
   edition (`research/howstudy/LICENSE`).
+- README `Contact` section (email · Notion profile · LinkedIn); LinkedIn
+  added to VISION collaboration section
 
 ### Fixed
 - LICENSE-CONTENT scope list referred to `reference/` — the published
