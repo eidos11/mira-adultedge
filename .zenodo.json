@@ -1,0 +1,21 @@
+{
+  "title": "MIRA AdultEdge",
+  "upload_type": "software",
+  "description": "MIRA (Memory-Imagination-Reason Architecture) is a judgment-bias diagnostic and coaching agent for adult learners, built on the author's original PSR theory of hypothetical judgment. It detects judgment biases in reasoning text using a 21-pattern registry, provides 3-axis diagnosis (metacognition, task definition, learning stage), and delivers differentiated coaching reinforced by cognitive-science anchors (ACT-R, dual-process theory, educational psychology). Code is MIT-licensed; knowledge content is CC BY 4.0; the Howstudy guide corpus (research/howstudy) is CC BY-NC 4.0 with additional permissions.",
+  "creators": [
+    {
+      "name": "Mnemo",
+      "orcid": "0009-0005-9709-0851"
+    }
+  ],
+  "license": "mit",
+  "keywords": [
+    "cognitive-science",
+    "judgment-bias",
+    "adult-learning",
+    "diagnostic-agent",
+    "PSR-theory",
+    "coaching",
+    "neurosymbolic-ai"
+  ]
+}
