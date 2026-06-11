@@ -340,6 +340,13 @@ If you use MIRA or its theoretical frameworks in academic work, please cite:
 
 See [CITATION.cff](CITATION.cff) for machine-readable citation metadata.
 
+## Contact
+
+Questions, collaboration, or partnership inquiries: open an issue or
+discussion on this repository, or email **eidos11@naver.com**.
+Author profile: [Notion](https://mnemo.notion.site/global-profile) ·
+[LinkedIn](https://www.linkedin.com/in/mnemofantasy).
+
 ## Disclaimer
 
 > **Research Preview** — This is an active research project, not production

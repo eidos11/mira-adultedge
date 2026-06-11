@@ -164,7 +164,8 @@ expert contribution (see README → Contributing). The aim is modest and concret
 
 **Reach out:** open an issue or discussion on this repository, or email
 **eidos11@naver.com**. Author profile:
-[mnemo.notion.site/global-profile](https://mnemo.notion.site/global-profile).
+[mnemo.notion.site/global-profile](https://mnemo.notion.site/global-profile) ·
+[LinkedIn](https://www.linkedin.com/in/mnemofantasy).
 
 ## Deployment paths (B2B2C)
 
