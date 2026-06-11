@@ -8,6 +8,10 @@ operational form lives in `spec/` and `mira/system_a/`.
 > **License note.** Unlike the rest of `/research` (CC BY 4.0), this corpus is
 > licensed **[CC BY-NC 4.0](./LICENSE)** (attribution, non-commercial). The
 > full Korean edition is being prepared for commercial publication.
+> For HS-ogn and the English edition, **additional permissions** ([LICENSE](./LICENSE) §3)
+> allow commercial use of excerpts and of transformative adaptations with
+> substantial original contribution — reproduction of substantial portions and
+> mere translation remain non-commercial only.
 
 ## Lineage
 
@@ -53,6 +57,6 @@ text is reproduced unmodified from the revised edition.
 The cases in HS-ogn come from the site's public counseling board (2003–2007),
 which the author operated. Writers posted with awareness of the public
 setting, and no personally identifying information is included. The cases are
-published here under the non-commercial license; commercial adaptation would
-require transforming case specifics — and is in any event not permitted to
-third parties under CC BY-NC 4.0.
+published under the corpus license; commercial adaptation is permitted only as
+a transformative reworking under the additional permissions ([LICENSE](./LICENSE) §3),
+and should transform case specifics rather than reproduce them.

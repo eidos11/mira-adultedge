@@ -3,9 +3,11 @@
 > 합본입니다. Howstudy-AdultEdge 한국어판·영문판과 MIRA AdultEdge의 실무적 시원
 > 문서(practical origin document)로 보존·공개합니다.
 > §12 상담 사례는 당시 공개 게시판에 작성된 글로, 작성자들이 공개성을 인지하고 작성했으며
-> 특정 개인을 식별할 수 있는 정보는 포함되어 있지 않습니다. 상업적 이용 시에는 사례의
-> 구체 상황 변환 검토가 필요할 수 있습니다 — 본 코퍼스는 CC BY-NC 4.0이므로 제3자의
-> 상업적 이용은 라이선스상 허용되지 않습니다.
+> 특정 개인을 식별할 수 있는 정보는 포함되어 있지 않습니다. 본 문서는 CC BY-NC 4.0에
+> 추가 허가([LICENSE](./LICENSE) §3)가 결합된 조건으로 공개됩니다 — 인용·발췌와 실질적
+> 독자 기여가 더해진 발전적 가공은 상업적 이용도 허용되나, 내용 대부분의 직접 전재와
+> 단순 번역의 상업화는 허용되지 않습니다. 사례를 상업적으로 가공할 때에는 구체 상황의
+> 변환이 필요합니다.
 > *(Korean. The 2003–2007 origin documents of the Howstudy method — see the corpus
 > [README](./README.md) for context in English.)*
 > Corpus index: [README](./README.md) · License: [CC BY-NC 4.0](./LICENSE)

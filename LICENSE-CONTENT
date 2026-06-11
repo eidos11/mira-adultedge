@@ -15,7 +15,8 @@ files, and operationalized-theory knowledge files, specifically:
   - mira/system_a/coaching/*.yaml  Coaching and theory knowledge templates
 
 Directory-level exception: research/howstudy/ (the Howstudy guide corpus) is
-licensed CC BY-NC 4.0 instead — see research/howstudy/LICENSE.
+licensed CC BY-NC 4.0 instead, with additional permissions for commercial use
+of excerpts and transformative adaptations — see research/howstudy/LICENSE.
 
 Third-party datasets, corpora, and source texts are not part of the published
 repository and are not covered by this license (see §3).

@@ -11,7 +11,9 @@ All notable changes to MIRA AdultEdge will be documented in this file.
   source edition (각론 §6–§9; the full Korean edition is reserved for
   publication), and the 2003–2007 origin documents (HS-ogn). Licensed
   CC BY-NC 4.0 as a directory-level exception to the CC BY 4.0 content
-  license (`research/howstudy/LICENSE`).
+  license, with additional permissions (CC+) allowing commercial use of
+  excerpts and transformative adaptations for HS-ogn and the English
+  edition (`research/howstudy/LICENSE`).
 
 ### Fixed
 - LICENSE-CONTENT scope list referred to `reference/` — the published

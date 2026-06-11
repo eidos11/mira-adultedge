@@ -34,7 +34,32 @@ Under the following terms:
 Full license text: https://creativecommons.org/licenses/by-nc/4.0/legalcode
 
 
-3. Notes
+3. Additional Permissions (CC+)
+
+Beyond the CC BY-NC 4.0 grant above, the copyright holder additionally
+permits, for HS-ogn.md and the English edition (eng/):
+
+  a. Commercial use of partial quotations and excerpts, with attribution.
+  b. Commercial use of transformative adaptations — works that rework,
+     extend, and build upon the material with substantial original
+     contribution of their own (for example: derived curricula, coaching
+     programs, or AI/agent knowledge packs that restructure and develop
+     the content).
+
+These additional permissions do not extend to:
+  - reproducing all or substantial portions of a document, verbatim or
+    near-verbatim, in a commercial product;
+  - mere translation, format conversion, or light editing presented as a
+    commercial work — translation alone is not a transformative adaptation;
+  - compilations consisting primarily of this material.
+
+These additional permissions do not apply to the Korean edition excerpt
+(kor/), which remains under the plain CC BY-NC 4.0 terms above.
+
+For uses beyond these permissions, contact the author (see repository README).
+
+
+4. Notes
 
 The operational form of this corpus (pattern registry, coaching templates)
 lives in spec/ and mira/system_a/ and is licensed separately — see LICENSE
