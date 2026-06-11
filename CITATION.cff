@@ -11,9 +11,13 @@ authors:
 repository-code: "https://github.com/eidos11/mira-adultedge"
 version: "0.2.3"
 date-released: "2026-06-11"
-# identifiers:
-#   - type: doi
-#     value: "10.5281/zenodo.XXXXXXX"   # Zenodo DOI, minted on first GitHub release
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20646075"
+    description: "Zenodo concept DOI (resolves to the latest version)"
+  - type: doi
+    value: "10.5281/zenodo.20646076"
+    description: "Zenodo DOI for v0.2.3"
 license:
   - MIT
   - CC-BY-4.0

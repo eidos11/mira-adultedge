@@ -4,6 +4,7 @@
 [![Code: MIT](https://img.shields.io/badge/code-MIT-green.svg)](LICENSE)
 [![Content: CC BY 4.0](https://img.shields.io/badge/content-CC%20BY%204.0-lightgrey.svg)](LICENSE-CONTENT)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](pyproject.toml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20646075.svg)](https://doi.org/10.5281/zenodo.20646075)
 
 **Memory-Imagination-Reason Architecture for adult learning diagnosis and coaching.**
 
