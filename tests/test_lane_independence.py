@@ -103,9 +103,13 @@ def test_lane_source_uses_lane3_detected_field():
 
 
 def test_unverified_gets_suggested_coaching_not_none():
+    # CONTRACT CHANGE (improvement #1 draft): lane-independent coaching now
+    # requires a signal (evidence trace); evidence-free unverified candidates
+    # fall through to the class-C elicitation path instead.
     c = PatternCandidate(
         pattern_id="false_dilemma", canonical_id="PAT-D-02", vtype="D",
         lane2_status="unverified",
+        evidence_trace=['[L1-cue] binary_option_marker: "either A or B"'],
     )
     out = _action_suggestion(_overlay([c]), "en")
     assert "false dilemma" in out.lower() or "false_dilemma" in out

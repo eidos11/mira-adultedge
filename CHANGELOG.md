@@ -2,6 +2,27 @@
 
 All notable changes to MIRA AdultEdge will be documented in this file.
 
+## [0.2.4] - 2026-06-15 (Lane-1 specificity + Korean coaching restoration)
+
+### Fixed
+- **Lane-1 detection specificity** — healthy, well-structured reasoning no
+  longer receives undifferentiated pattern coaching. Inputs without distortion
+  signals now route to a "Class B" observation (no pattern coaching needed),
+  removing Barnum-style false positives and learner-as-person praise. Coaching
+  selection is now signal-based (`mira/system_b/engine/lane1_cues.py`) rather
+  than alphabetical / input-invariant.
+- **Korean coaching** — Korean input now emits pattern-specific coaching
+  end-to-end. Earlier versions fell back to a conservative safe-report because
+  the coaching lead collided with the verdict-token safety gate; the lead is
+  rewritten token-free so the gate is preserved without suppressing coaching.
+
+### Notes
+- Safety gates unchanged (`safety_patterns`, invariants, enums untouched) — the
+  fixes adjust coaching content, not the verification gates. Calibration honesty
+  is preserved.
+- Tests: 584 passed (11 new specificity / cue-routing cases), CI-gated zero
+  failures.
+
 ## [0.2.3] - 2026-06-11 (Research corpus landing)
 
 ### Added

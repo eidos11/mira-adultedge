@@ -65,7 +65,7 @@ def _stub_coaching(monkeypatch):
     """
     monkeypatch.setattr(
         "mira.report.generate_coaching_block",
-        lambda pattern_id, lang="en", tentative=False: _CLEAN_COACHING,
+        lambda pattern_id, lang="en", tentative=False, basis=None: _CLEAN_COACHING,
     )
 
 
@@ -281,7 +281,7 @@ def _overlay_mixed(evidenced: list[str], unverified: list[str]) -> CVVerificatio
     return _base_overlay(overlay_status="insufficient_evidence", pattern_candidates=cands)
 
 
-def _tentative_stub(pattern_id, lang="en", tentative=False):
+def _tentative_stub(pattern_id, lang="en", tentative=False, basis=None):
     """Stub that echoes pattern_id and includes 'may' when tentative=True."""
     if tentative:
         return f"This *may* apply — **{pattern_id.replace('_', ' ')}**: check this pattern."
@@ -289,11 +289,21 @@ def _tentative_stub(pattern_id, lang="en", tentative=False):
 
 
 def test_action_suggestion_unverified_is_tentative_and_capped(monkeypatch):
-    """Unverified patterns get tentative framing (contains 'may') and are capped at 3."""
+    """Signal-backed tentative patterns get tentative framing and are capped at 3.
+
+    CONTRACT CHANGE (improvement #1/#2 draft): unverified candidates WITHOUT
+    evidence are no longer coached (the alphabetical registry dump produced
+    input-invariant coaching). The cap now applies to the signal-backed pool,
+    so this test supplies L1-cue evidence to exercise the same guard."""
     monkeypatch.setattr("mira.report.generate_coaching_block", _tentative_stub)
-    # 4 patterns — only 3 should appear
-    overlay = _overlay_with_unverified(
-        ["oversimplified_cause", "false_dilemma", "sunk_cost", "fluency_illusion"]
+    # 4 signal-backed patterns — only 3 should appear
+    overlay = _base_overlay(
+        pattern_candidates=[
+            _make_candidate(p, "unverified", [f'[L1-cue] m: "x{i}"'])
+            for i, p in enumerate(
+                ["oversimplified_cause", "false_dilemma", "sunk_cost", "fluency_illusion"]
+            )
+        ]
     )
     block = _action_suggestion(overlay, "en")
     assert "may" in block.lower() or "혹시" in block  # tentative framing
@@ -363,9 +373,11 @@ def test_generate_report_no_coaching_verdict_gate(monkeypatch):
     fallback, so 'diagnosed' was absent. GREEN now: the coaching flows through."""
     monkeypatch.setattr(
         "mira.report.generate_coaching_block",
-        lambda pattern_id, lang="en", tentative=False: "This pattern was diagnosed — consider structural factors.",
+        lambda pattern_id, lang="en", tentative=False, basis=None: "This pattern was diagnosed — consider structural factors.",
     )
-    overlay = _overlay_with_unverified(["false_dilemma"])
+    overlay = _base_overlay(
+        pattern_candidates=[_make_candidate("false_dilemma", "unverified", ['[L3] cue'])]
+    )
     report = generate_report(overlay, "I must pick A or B", lang="en")
     assert report != safe_fallback_report("en")  # gate removed: no fallback
     assert "diagnosed" in report                  # verdict-ish coaching now flows through
@@ -386,7 +398,7 @@ def test_action_suggestion_cap_does_not_starve_on_missing_templates(monkeypatch)
     RED (pre-fix): false_dilemma (4th) is never tried -> absent.
     GREEN (post-fix): false_dilemma coaching appears.
     """
-    def _stub(pid, lang="en", tentative=False):
+    def _stub(pid, lang="en", tentative=False, basis=None):
         if pid.startswith("notempl"):
             return None  # template missing -> generate_coaching_block returns None
         return f"This *may* apply — **{pid.replace('_', ' ')}**: structural check."

@@ -11,6 +11,8 @@ import re
 from mira.contracts.minimal import CVVerificationOverlay, PatternCandidate
 from mira.contracts.safety_patterns import VERDICT_LANGUAGE_RE, WILLPOWER_BLAME_RE
 from mira.system_a.coaching.coaching import generate_coaching_block
+from mira.psr.psr import neutralize_blame
+from mira.system_b.engine.lane1_cues import extract_health_signals
 
 _STRINGS: dict[str, dict[str, str]] = {
     "en": {
@@ -45,6 +47,22 @@ _STRINGS: dict[str, dict[str, str]] = {
             "If you'd like a more thorough analysis, consider providing specific examples "
             "of the decision or situation you're reflecting on."
         ),
+        "summary_cues": "{vt} verification was performed; {n} pattern signal(s) were observed in the input (signal-level, not formal verification). The coaching below addresses the signal-backed candidates and remains tentative.",
+        "pos_summary": "{vt} verification was performed. No distortion signals were observed in the input; signals of well-structured reasoning were observed.",
+        "pos_intro": "The reasoning structure in this input shows signals that support improvement:",
+        "sig_monitoring": "checking outcomes and keeping a record (monitoring)",
+        "sig_specific_gap": "naming specific weak areas instead of a global self-judgment",
+        "sig_evidence_based": "grounding self-assessment in retrieval or application",
+        "pos_close": "No pattern coaching is needed for this input. (This is an observation about the reasoning process only — not an evaluation of you as a learner.)",
+        "pos_invite": "If you want to go one step further: what is the next checkpoint that would tell you this plan is working?",
+        "neutral_summary": "{vt} verification was performed, but the input does not contain enough signal to suggest any pattern responsibly.",
+        "neutral_intro": "Rather than offering unrelated coaching, here are three questions that would sharpen the analysis:",
+        "neutral_q1": "What outcome or decision is this reasoning about?",
+        "neutral_q2": "What evidence makes you think so?",
+        "neutral_q3": "What would you do next if your judgment holds — and what if it does not?",
+        "neutral_close": "One or two more sentences of context will substantially improve analysis quality.",
+        "basis": "Why this surfaced: the phrase \"{x}\" was observed in your input",
+        "no_template_note": "**{name}** — a signal was observed in your input (phrase: \"{x}\"), but dedicated coaching for this pattern is outside v0.x scope.",
         "safe_h": "## Analysis Result",
         "safe_body": "A structural analysis was performed on the provided text, but a safe report could not be generated within the current scope.",
         "safe_lim_h": "## Limitations",
@@ -82,6 +100,22 @@ _STRINGS: dict[str, dict[str, str]] = {
             "보다 심층적인 분석을 원하시면, 고민 중인 결정이나 상황에 대한 "
             "구체적 사례를 제공해 주세요."
         ),
+        "summary_cues": "{vt} 검증을 수행했으며, 입력에서 패턴 신호 {n}건이 관찰되었습니다(신호 수준이며 형식 검증은 아닙니다). 아래 코칭은 신호가 관찰된 후보에 한해 잠정적으로 제공됩니다.",
+        "pos_summary": "{vt} 검증을 수행했습니다. 입력에서 왜곡 신호는 관찰되지 않았고, 잘 구조화된 추론의 신호가 관찰되었습니다.",
+        "pos_intro": "이 입력의 추론 구조에는 개선을 잘 지지하는 신호가 있습니다:",
+        "sig_monitoring": "결과를 점검하고 기록함(모니터링)",
+        "sig_specific_gap": "전반적인 자기 평가 대신 구체적인 약점을 지목함",
+        "sig_evidence_based": "자기 평가를 인출·적용 근거에 연결함",
+        "pos_close": "이 입력에는 패턴 코칭이 필요하지 않습니다. (추론 과정에 대한 관찰일 뿐, 학습자 개인에 대한 평가가 아닙니다.)",
+        "pos_invite": "한 걸음 더: 이 계획이 작동하는지 알려줄 다음 확인 지점은 무엇인가요?",
+        "neutral_summary": "{vt} 검증을 수행했으나, 입력만으로는 어떤 패턴을 책임 있게 제안할 만한 신호가 충분하지 않습니다.",
+        "neutral_intro": "무관한 코칭을 제시하는 대신, 분석을 선명하게 해줄 세 가지 질문을 드립니다:",
+        "neutral_q1": "어떤 결과나 결정에 대한 판단인가요?",
+        "neutral_q2": "그렇게 생각한 근거는 무엇인가요?",
+        "neutral_q3": "그 판단이 옳다면 다음에 무엇을 하고, 어긋난다면 무엇을 하시겠어요?",
+        "neutral_close": "한두 문장만 맥락을 더해 주시면 분석 품질이 크게 올라갑니다.",
+        "basis": "제시 근거: 입력에서 \"{x}\" 표현이 관찰되었습니다",
+        "no_template_note": "**{name}** — 입력에서 신호가 관찰되었습니다(표현: \"{x}\"). 다만 이 패턴의 전용 코칭은 v0.x 범위 밖입니다.",
         "safe_h": "## 분석 결과",
         "safe_body": "입력된 내용에 대한 구조적 분석을 수행했으나, 현재 제공 가능한 범위 내에서 안전한 보고서를 생성할 수 없었습니다.",
         "safe_lim_h": "## 제한사항",
@@ -118,10 +152,17 @@ def generate_report(
     *,
     lang: str = "en",
 ) -> str:
-    diagnostic = _diagnostic_summary(overlay, lang)
+    # Class determination (draft, improvements #1/#2):
+    #   A: signal-backed coaching (any evidence_trace present — L1 cues or L3)
+    #   B: no distortion signals, healthy-reasoning signals present → positive
+    #   C: no signals either way → honest elicitation, NO pattern coaching
+    evidenced_n = sum(1 for c in overlay.pattern_candidates if c.evidence_trace)
+    health = extract_health_signals(learner_claim) if evidenced_n == 0 else []
+
+    diagnostic = _diagnostic_summary(overlay, lang, evidenced_n=evidenced_n, health=health)
     evidence = _evidence_block(overlay, lang)
     limitations = _limitations_block(overlay, lang)
-    coaching = _action_suggestion(overlay, lang)
+    coaching = _action_suggestion(overlay, lang, health=health)
 
     system_text = REPORT_BLOCK_SEPARATOR.join([diagnostic, limitations])
     violation = _check_report_violations(system_text)
@@ -136,7 +177,13 @@ def generate_report(
     return report
 
 
-def _diagnostic_summary(overlay: CVVerificationOverlay, lang: str) -> str:
+def _diagnostic_summary(
+    overlay: CVVerificationOverlay,
+    lang: str,
+    *,
+    evidenced_n: int = 0,
+    health: list[str] | None = None,
+) -> str:
     s = _s(lang)
     vtype_label = {"D": s["vtype_D"], "I": s["vtype_I"], "A": s["vtype_A"]}
     vt = vtype_label.get(overlay.route_vtype, overlay.route_vtype)
@@ -145,8 +192,12 @@ def _diagnostic_summary(overlay: CVVerificationOverlay, lang: str) -> str:
     if detected:
         names = ", ".join(c.pattern_id.replace("_", " ") for c in detected)
         summary = s["detected"].format(vt=vt, names=names)
+    elif evidenced_n > 0:
+        summary = s["summary_cues"].format(vt=vt, n=evidenced_n)
+    elif health:
+        summary = s["pos_summary"].format(vt=vt)
     else:
-        summary = s["not_detected"].format(vt=vt)
+        summary = s["neutral_summary"].format(vt=vt)
 
     return f"{s['summary_h']}\n\n{summary}"
 
@@ -161,8 +212,13 @@ def _evidence_block(overlay: CVVerificationOverlay, lang: str) -> str:
 
     for c in overlay.pattern_candidates:
         if c.evidence_trace:
-            traces = ", ".join(c.evidence_trace)
-            lines.append(f"\n**{c.pattern_id}** {s['evidence_for']}: {traces}")
+            # spec §6: the system portion (everything before ## Coaching) must
+            # remain free of willpower-blame tokens. Pattern ids like
+            # 'willpower_blame' and raw trace text are therefore passed through
+            # the same neutralization used for PSR display.
+            safe_name = neutralize_blame(c.pattern_id.replace("_", " "))
+            traces = ", ".join(neutralize_blame(t) for t in c.evidence_trace)
+            lines.append(f"\n**{safe_name}** {s['evidence_for']}: {traces}")
 
     return "\n".join(lines)
 
@@ -179,7 +235,21 @@ def _limitations_block(overlay: CVVerificationOverlay, lang: str) -> str:
     )
 
 
-def _action_suggestion(overlay: CVVerificationOverlay, lang: str) -> str:
+def _first_cue_basis(c) -> str | None:
+    """Extract the first Lane 1 cue excerpt from a candidate's evidence trace."""
+    for t in c.evidence_trace or []:
+        m = re.search(r'\[L1-cue\]\s+[\w-]+:\s+"(.+)"', t)
+        if m:
+            return m.group(1)
+    return None
+
+
+def _action_suggestion(
+    overlay: CVVerificationOverlay,
+    lang: str,
+    *,
+    health: list[str] | None = None,
+) -> str:
     s = _s(lang)
     sections = [f"{s['coaching_h']}\n"]
 
@@ -189,20 +259,6 @@ def _action_suggestion(overlay: CVVerificationOverlay, lang: str) -> str:
         c for c in overlay.pattern_candidates
         if c.lane2_status not in ("pass", "fail") and c.evidence_trace
     ]
-    unverified = [
-        c for c in overlay.pattern_candidates
-        if c.lane2_status == "unverified" and c not in evidenced
-    ]
-    # CX-2 + CX-5: merge evidenced + unverified into ONE tentative set; deterministic
-    # sort (evidence-rich first, then pattern_id alphabetical).
-    # P1-b: the cap bounds EMITTED coaching blocks (3), NOT candidates scanned. Slicing
-    # the candidate list to [:3] BEFORE template resolution could starve all coaching when
-    # the evidence-richest candidates lack templates — spec §4 wants 1-3 ACTUAL blocks, so
-    # template-missing candidates must not consume a cap slot.
-    tentative_pool = sorted(
-        evidenced + unverified,
-        key=lambda c: (-len(c.evidence_trace or []), c.pattern_id),
-    )
 
     if verified:
         for c in verified:
@@ -215,22 +271,66 @@ def _action_suggestion(overlay: CVVerificationOverlay, lang: str) -> str:
                     f"- **{c.pattern_id.replace('_', ' ')}**: {s['coach_fallback']}"
                 )
 
+    # Class A (signal-backed tentative coaching, improvement #1):
+    # emit ONLY evidence-backed candidates, evidence-richest first, each with
+    # its selection basis surfaced. Unevidenced registry filler — the previous
+    # alphabetical dump — is no longer emitted (it produced input-invariant
+    # coaching and a specificity of ~0 against healthy-control inputs).
     tentative_emitted = 0
-    for c in tentative_pool:
-        if tentative_emitted >= 3:
-            break
-        coaching = generate_coaching_block(c.pattern_id, lang=lang, tentative=True)
-        if coaching:
-            sections.append(coaching)
-            tentative_emitted += 1
-        # template-missing -> SKIP (no assertive fallback for unverified patterns; spec §4);
-        # does NOT consume a cap slot, so an available template lower in the order surfaces.
+    if evidenced:
+        pool = sorted(
+            evidenced,
+            key=lambda c: (-len(c.evidence_trace or []), c.pattern_id),
+        )
+        for c in pool:
+            if tentative_emitted >= 3:
+                break
+            excerpt = _first_cue_basis(c)
+            basis = s["basis"].format(x=excerpt) if excerpt else None
+            coaching = generate_coaching_block(
+                c.pattern_id, lang=lang, tentative=True, basis=basis
+            )
+            if coaching:
+                sections.append(coaching)
+                tentative_emitted += 1
+            elif excerpt:
+                # Honest no-template note (zero-silent-skip philosophy, Task 5):
+                # the learner still learns WHICH signal was observed and why.
+                sections.append(
+                    s["no_template_note"].format(
+                        name=c.pattern_id.replace("_", " "), x=excerpt
+                    )
+                )
+                tentative_emitted += 1
 
     if not verified and tentative_emitted == 0:
         if overlay.overlay_status in ("needs_review", "structural_mismatch"):
             sections.append(s["coach_needs_review"])
+        elif health:
+            # Class B (improvement #2): healthy-reasoning acknowledgment.
+            # Process-level observation ONLY — person-level praise is avoided
+            # as the mirror image of the willpower-blame prohibition
+            # (Invariant #12 symmetry; cf. process vs. person praise).
+            lines = [s["pos_intro"], ""]
+            for h in health:
+                key = f"sig_{h}"
+                if key in s:
+                    lines.append(f"- {s[key]}")
+            lines += ["", s["pos_close"], "", f"*{s['pos_invite']}*"]
+            sections.append("\n".join(lines))
         else:
-            sections.append(s["coach_none"])
+            # Class C (improvement #2): honest elicitation instead of
+            # unrelated coaching.
+            lines = [
+                s["neutral_intro"],
+                "",
+                f"- {s['neutral_q1']}",
+                f"- {s['neutral_q2']}",
+                f"- {s['neutral_q3']}",
+                "",
+                s["neutral_close"],
+            ]
+            sections.append("\n".join(lines))
 
     return "\n".join(sections)
 

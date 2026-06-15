@@ -27,6 +27,13 @@ from mira.system_a.types import DiagnosticSnapshot
 from mira.system_b.engine.critic.adapter import run_reduced_critic
 from mira.system_b.engine.matcher import match_patterns
 from mira.system_b.lane2.bridge import run_lane2_bridge
+from mira.system_b.engine.lane1_cues import (
+    CUE_PATTERN_VTYPE,
+    CueHit,
+    evidence_lines,
+    extract_cues,
+    extract_health_signals,
+)
 from mira.system_b.lane2.patterns import PATTERN_META, SUPPORTED_PATTERNS
 from mira.system_b.lane3.llm_extractor import extract_pattern_candidates
 
@@ -340,6 +347,12 @@ def _system_b_verify(
     vtype = route_vtype(request.learner_claim, request.psr_prior)
     candidates = match_patterns(psr, vtype)
 
+    # Lane 1 input cues (draft, improvement #1): signal-level evidence from
+    # the RAW claim. Evidence-first sorting downstream then surfaces
+    # cue-backed patterns; cross-route hits are injected (Lane 2 precedent).
+    cue_hits = extract_cues(request.learner_claim)
+    candidates = _enrich_with_lane1_cues(candidates, cue_hits)
+
     llm_candidates = extract_pattern_candidates(
         request.learner_claim,
         stage_estimate=stage_estimate,
@@ -445,6 +458,59 @@ def _merge_bridge_verdict_candidates(
             )
         )
     return updated
+
+
+def _enrich_with_lane1_cues(
+    candidates: list[minimal.PatternCandidate],
+    cue_hits: list["CueHit"],
+) -> list[minimal.PatternCandidate]:
+    """Merge Lane 1 input-cue evidence into candidates (mirrors Lane 3 merge).
+
+    Existing candidates gain evidence_trace lines; cue-hit patterns outside
+    the routed vtype are injected as evidence-assisted candidates, following
+    the Lane 2 bridge injection precedent above. Verification semantics are
+    untouched: lane2_status remains as-is, so cue-backed patterns render as
+    evidence-assisted (🟡), never verified (✅).
+    """
+    if not cue_hits:
+        return candidates
+
+    by_pid = {h.pattern_id: h for h in cue_hits}
+    existing_ids = {c.pattern_id for c in candidates}
+    enriched: list[minimal.PatternCandidate] = []
+
+    for c in candidates:
+        hit = by_pid.get(c.pattern_id)
+        if hit is None:
+            enriched.append(c)
+            continue
+        enriched.append(
+            minimal.PatternCandidate(
+                pattern_id=c.pattern_id,
+                canonical_id=c.canonical_id,
+                vtype=c.vtype,
+                lane2_status=c.lane2_status,
+                lane2_result=c.lane2_result,
+                evidence_trace=c.evidence_trace + evidence_lines(hit),
+                lane3_detected=c.lane3_detected,
+            )
+        )
+
+    for pid, hit in by_pid.items():
+        if pid in existing_ids:
+            continue
+        vt = CUE_PATTERN_VTYPE.get(pid, "I")
+        enriched.append(
+            minimal.PatternCandidate(
+                pattern_id=pid,
+                canonical_id=pid,
+                vtype=vt,  # registry vtype; injection mirrors Lane 2 precedent
+                lane2_status="unverified",
+                evidence_trace=evidence_lines(hit),
+            )
+        )
+
+    return enriched
 
 
 def _enrich_with_lane3(

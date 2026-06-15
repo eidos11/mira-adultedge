@@ -47,7 +47,12 @@ _LABELS = {
 }
 
 
-def generate_coaching_block(pattern_id: str, lang: str = "en", tentative: bool = False) -> str | None:
+def generate_coaching_block(
+    pattern_id: str,
+    lang: str = "en",
+    tentative: bool = False,
+    basis: str | None = None,
+) -> str | None:
     """Generate a coaching block for a detected pattern.
 
     Returns a formatted markdown string with Socratic inquiry + action invitation,
@@ -59,6 +64,9 @@ def generate_coaching_block(pattern_id: str, lang: str = "en", tentative: bool =
         tentative: When True, prepends a hypothetical lead-in before the recognition
             line to frame the pattern as a possibility rather than a confirmed finding.
             Intended for unverified patterns (spec D3). Default False (assertive).
+        basis: Optional pre-formatted selection-basis line (e.g. the learner phrase
+            that triggered a Lane 1 cue). Rendered right after the recognition line
+            so the learner can see WHY this coaching surfaced (improvement #1).
     """
     skills = get_coaching_content()
     theory = get_theory_templates()
@@ -75,15 +83,23 @@ def generate_coaching_block(pattern_id: str, lang: str = "en", tentative: bool =
         if tentative:
             _TENTATIVE_LEADS = {
                 "en": "This *may* point to the following — not a confirmed diagnosis; please check:",
-                "ko": "다음 패턴에 *해당할 수 있습니다* — 확정 진단이 아니니 점검해 보세요:",
+                # NOTE (Korean gate fix, improvement #3): the previous lead
+                # "확정 진단이 아니니" contained '확정', which matches
+                # VERDICT_LANGUAGE_RE — critic check #7 then collapsed every
+                # Korean coaching report into the safe fallback. Reworded to a
+                # gate-token-free equivalent.
+                "ko": "다음 패턴에 *해당할 수 있습니다* — 단정이 아닌 가설이니 직접 점검해 보세요:",
             }
             lead = _TENTATIVE_LEADS.get(lang, "This *may* apply — please check:")
             lines.append(lead)
             lines.append("")
         lines.append(f"**{pattern_id.replace('_', ' ')}** — {recognition}")
         lines.append("")
+        if basis:
+            lines.append(f"*{basis}*")
+            lines.append("")
 
-    psr_focus = skill.get("psr_coaching_focus")
+    psr_focus = skill.get(f"psr_coaching_focus_{lang}") or skill.get("psr_coaching_focus")
     if psr_focus:
         lines.append(f"*{lb['psr_focus']}: {psr_focus}*")
         lines.append("")
@@ -104,7 +120,11 @@ def generate_coaching_block(pattern_id: str, lang: str = "en", tentative: bool =
 
     theory_entry = theory.get(pattern_id)
     if theory_entry:
-        learner_msg = theory_entry.get("learner_message")
+        # Language-aware theory message (improvement #3): prefer
+        # learner_message_<lang>, fall back to the base learner_message.
+        learner_msg = theory_entry.get(f"learner_message_{lang}") or theory_entry.get(
+            "learner_message"
+        )
         if learner_msg:
             lines.append(f"> {learner_msg}")
             lines.append("")

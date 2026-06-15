@@ -346,8 +346,20 @@ class TestFix3PatternIdStrip:
 
     @pytest.mark.parametrize("lang", ["en", "ko"])
     def test_real_willpower_blame_coaching_template_trips_safety_gate(self, lang):
-        """The real skill template still contains bare willpower-blame phrases."""
+        """Characterization: the EN skill template still contains bare
+        willpower-blame phrases (Mnemo-approved instructional counter-example,
+        spec §6 coaching exemption).
+
+        CONTRACT CHANGE (improvement #3 draft): the KO template was rewritten
+        gate-token-free — the Korean coaching achieves Invariant #12 compliance
+        by construction instead of relying on the coaching-section exemption.
+        (Previously the ko block only tripped the gate via the shared ENGLISH
+        psr_coaching_focus line; with psr_coaching_focus_ko it no longer does.)
+        """
         coaching = load_coaching_block("willpower_blame", lang=lang)
 
         assert coaching is not None
-        assert _check_report_violations(coaching) == "willpower_blame_language"
+        if lang == "en":
+            assert _check_report_violations(coaching) == "willpower_blame_language"
+        else:
+            assert _check_report_violations(coaching) is None

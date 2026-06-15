@@ -32,6 +32,7 @@ fluency_illusion:
       - "Bjork, Dunlosky & Kornell (2013) Self-regulated learning"
       - "Anderson 2000 Ch.8 Retrieval; TFS Ch.5 Cognitive Ease"
   learner_message: "Reading smoothly does not mean you know it — you need to close the book and try explaining it yourself or actually applying it to confirm genuine understanding."
+  learner_message_ko: "술술 읽힌다고 아는 것이 아닙니다 — 책을 덮고 스스로 설명하거나 직접 적용해 봐야 진짜 이해가 확인됩니다."
   confidence: { act_r: high, kahneman: high }
 
 false_dilemma:
@@ -56,6 +57,7 @@ false_dilemma:
       - "Kruglanski (2004) Psychology of Closed Mindedness"
       - "Anderson, Architecture of Cognition Ch.1,4; TFS Ch.7,9,34"
   learner_message: "The two options you see right now may not be all there is — try thinking of a third path, or designing one small experiment first."
+  learner_message_ko: "지금 보이는 두 가지가 전부가 아닐 수 있습니다 — 세 번째 길을 떠올리거나, 작은 실험 하나를 먼저 설계해 보세요."
   confidence: { act_r: high, kahneman: medium-high }
 
 oversimplified_cause:
@@ -81,6 +83,7 @@ oversimplified_cause:
       - "Pearl (2000) Causality"
       - "Anderson 2000 Ch.10 Causal Inference; TFS Ch.4,6,7,16"
   learner_message: "If your explanation ends with 'lack of willpower' alone, there is nothing left to change — try identifying which part is actually off among task, steps, feedback, time, and strategy, one by one."
+  learner_message_ko: "설명이 '~ 때문' 하나로 끝나면 바꿀 수 있는 것이 사라집니다 — 과제·단계·피드백·시간·전략 중 실제로 어긋난 부분을 하나씩 짚어 보세요."
   confidence: { act_r: high, kahneman: high }
   compound_alert: "Frequent co-occurrence with effort_heuristic → PAT-DUAL-01 compound. When detected simultaneously, apply structural-reattribution protocol."
 
@@ -108,6 +111,7 @@ sunk_cost:
       - "Kahneman & Tversky (1979) Prospect Theory"
       - "Anderson, Rules of the Mind Ch.3,4; TFS Ch.27,28,32,34"
   learner_message: "It is natural to feel reluctant to let go of the time you have already invested, but try basing your decision on which choice will return more going forward."
+  learner_message_ko: "이미 들인 시간이 아까운 것은 자연스럽지만, 결정의 근거는 과거의 투입이 아니라 앞으로 어느 쪽의 이득이 큰지에 두는 편이 유리합니다."
   confidence: { act_r: high, kahneman: medium-high }
 
 effort_heuristic:
@@ -133,6 +137,7 @@ effort_heuristic:
       - "Ericsson, Krampe & Tesch-Römer (1993) Deliberate practice"
       - "Anderson, Rules of the Mind Ch.4; TFS Ch.2,9,32"
   learner_message: "The feeling that you worked hard is not evidence that your skills have improved — you need to check 'what has actually changed' for it to be genuine learning."
+  learner_message_ko: "노력의 양과 실력의 변화는 다른 측정값입니다 — '오늘 무엇이 달라졌나'를 확인할 수 있어야 진짜 학습입니다."
   confidence: { act_r: high, kahneman: medium }
   compound_alert: "Frequent co-occurrence with oversimplified_cause → PAT-DUAL-01 compound. When detected simultaneously, apply structural-reattribution protocol."
 
@@ -162,5 +167,6 @@ willpower_blame:
       - "Weiner (1985) An attributional theory of achievement motivation"
       - "Anderson, Architecture of Cognition; TFS Ch.4,6,16"
   learner_message: "The explanation 'I lack willpower' leaves nothing to change — try identifying which factor among task structure, time allocation, and feedback availability you could actually adjust."
+  learner_message_ko: "실패의 대부분은 성격이 아니라 구조로 설명됩니다 — 과제 구조, 시간 배분, 피드백 주기처럼 바꿀 수 있는 것부터 손보는 편이 효과적입니다."
   confidence: { act_r: medium-high, kahneman: high }
   compound_alert: "High co-occurrence rate with oversimplified_cause → structural-reattribution protocol. When detected simultaneously, prioritize reattribution from character-based to structural variables."

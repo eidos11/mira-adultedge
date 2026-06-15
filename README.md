@@ -178,11 +178,12 @@ Default output is English. Use `--lang ko` to switch the report output to Korean
 Korean regex patterns in code are intentional NLP features, not artifacts.
 
 > **v0.x honesty note**: the English path is fully exercised end-to-end. Korean
-> input detection and Korean report rendering are implemented, but end-to-end
-> Korean coaching output is still being validated — Korean-language runs
-> currently tend to produce a conservative safe-fallback report rather than
-> pattern-specific coaching. Restoring full Korean coaching content is on the
-> v0.x roadmap.
+> input detection, report rendering, and pattern-specific coaching are now
+> exercised end-to-end — earlier versions fell back to a conservative
+> safe-report on Korean input (a verdict-token collision in the coaching lead);
+> v0.x emits Korean pattern coaching directly. A few patterns (e.g. genetic
+> fallacy) still route to a signal-only note pending dedicated templates, which
+> remain on the v0.x roadmap.
 
 ## LLM Configuration
 
