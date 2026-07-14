@@ -4,7 +4,7 @@
 pattern_id: false_dilemma
 canonical_id: PAT-D-02
 vtype: D
-psr_coaching_target: P
+psr_coaching_target: P  # Reference only. Authoritative coaching target lives in the coaching template SSOT (mira/system_a/coaching/theory_templates.yaml → false_dilemma: S); this spec-side value may differ. See THEORY.md §7.1.
 
 detection_criteria:
   trigger: "binary framing of multi-option situation"

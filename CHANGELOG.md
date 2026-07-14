@@ -2,6 +2,32 @@
 
 All notable changes to MIRA AdultEdge will be documented in this file.
 
+## [0.3.0] - 2026-07-14 (Research: MIRA-core theory publication)
+
+### Added
+- `research/THEORY.md` — the MIRA-core theory-to-system specification lands:
+  states the Provisional Interpretive Judgment theory and the system contract
+  in one place, with the three-axis model, corpus governance, and falsifiable
+  commitments.
+- `research/axis2-spec.md` — Axis 2 normative specification (motivated
+  appraisal and judgment distortion), the theoretical bridge between System A
+  (diagnosis) and System B (verification); companion to `THEORY.md`.
+- `research/AE_17pattern_evidence_registry.md` — draft evidence registry
+  mapping the diagnostic pattern taxonomy to cognitive-science sources
+  (Anderson ACT/ACT-R, Kahneman), a companion reference to the theory
+  documents above.
+- Cross-references to the newly published theory documents in `README.md`,
+  `VISION.md`, `research/README.md`, and the live dashboard footer.
+
+### Notes
+- Documentation/research release — no code, spec enforcement, or safety-gate
+  changes. `spec/system_b/false_dilemma.yaml` and `oversimplified_cause.yaml`
+  gained reference-only comments pointing `psr_coaching_target` readers to the
+  authoritative coaching-template SSOT and to `THEORY.md` §7.1; the enforced
+  values themselves are unchanged.
+- Tests: 596 passed, 2 skipped (undistributed third-party fixtures), CI-gated
+  zero failures — unchanged from 0.2.5.
+
 ## [0.2.5] - 2026-07-14 (Lane 2/3 robustness + Codex subscription env)
 
 ### Fixed

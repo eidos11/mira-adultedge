@@ -264,11 +264,14 @@ mira-adultedge/
 ├── spec/                    # Pattern registry + invariants + enums (CC BY 4.0)
 ├── tests/                   # Test suite
 ├── examples/                # Sample inputs
-└── research/                # Theory foundation & corpus (added progressively — see VISION.md)
+└── research/                # Theory (THEORY.md + companion specs) + howstudy corpus — see VISION.md
 ```
 
 > Code is **MIT**; knowledge content (theory, `spec/`, coaching/theory YAML) is
 > **CC BY 4.0**. See [LICENSE](LICENSE) and [LICENSE-CONTENT](LICENSE-CONTENT).
+>
+> See [research/THEORY.md](research/THEORY.md) for the theory-to-system
+> specification behind the patterns and coaching above.
 
 ## Testing
 
