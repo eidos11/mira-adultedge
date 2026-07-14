@@ -18,6 +18,12 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.20698922"
     description: "Zenodo DOI for v0.2.4"
+  - type: doi
+    value: "10.5281/zenodo.21350357"
+    description: "Zenodo DOI for v0.2.5"
+  - type: doi
+    value: "10.5281/zenodo.21351492"
+    description: "Zenodo DOI for v0.3.0"
 license:
   - MIT
   - CC-BY-4.0
