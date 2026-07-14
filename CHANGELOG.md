@@ -2,6 +2,37 @@
 
 All notable changes to MIRA AdultEdge will be documented in this file.
 
+## [0.2.5] - 2026-07-14 (Lane 2/3 robustness + Codex subscription env)
+
+### Fixed
+- **Lane 3 truncation salvage** — a long extraction response cut off mid-array
+  (or wrapped in an unclosed code fence) no longer drops the whole extraction;
+  the complete pattern objects that did arrive are recovered from the partial
+  response. The output-token ceiling is raised to 4096 (a ceiling, not a charge —
+  only generated tokens are billed) to avoid the truncation in the first place.
+- **False-dilemma vacuous verification** — the rule now requires at least two
+  options actually on the table (`option_count >= 2`), so a rhetorical
+  "not X but Y" marker with nothing listed no longer verifies vacuously.
+- **Lane 2 diagnostics readability** — a non-fatal Lane 2 degradation now logs a
+  human-readable reason ("Lane 2 verification unavailable …") instead of a bare
+  `lane2.error` token; the structured `error_type` / `backend` fields are
+  preserved for structured log consumers.
+
+### Changed
+- **Codex subscription hygiene** — Codex CLI subprocesses (Lane 2 and Lane 3) now
+  run with `OPENAI_API_KEY` stripped from their environment, so Codex always
+  authenticates via the ChatGPT subscription and never silently switches to
+  per-token API-key billing.
+
+### Notes
+- Safety gates unchanged (`safety_patterns`, invariants, enums untouched) — the
+  fixes address robustness and diagnostics, not the verification gates.
+  Calibration honesty is preserved: a Lane 2 run-to-run flip only ever downgrades
+  a verdict to *tentative*, never produces a false "verified" (now documented in
+  the README).
+- Tests: 596 passed, 2 skipped (undistributed third-party fixtures), CI-gated
+  zero failures.
+
 ## [0.2.4] - 2026-06-15 (Lane-1 specificity + Korean coaching restoration)
 
 ### Fixed

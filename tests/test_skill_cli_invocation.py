@@ -17,7 +17,8 @@ first-use condition every downstream user faces.
 
 Scope: these tests assert specifically that ``import mira`` succeeds.  The
 optional ``pyswip`` (prolog extra) is a SEPARATE concern — Lane 2 degrades
-gracefully (exit 0, ``lane2.error`` on stderr) when it is absent — so its
+gracefully (exit 0, a human-readable Lane 2 warning on stderr) when it is
+absent — so its
 presence or absence does not affect this BUG-1 regression.
 """
 

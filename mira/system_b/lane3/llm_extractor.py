@@ -31,6 +31,8 @@ import subprocess
 import tempfile
 from typing import Any
 
+from mira.system_b.codex_env import codex_subprocess_env
+
 logger = logging.getLogger(__name__)
 
 CANDIDATE_PATTERNS_BY_STAGE: dict[str, list[str]] = {
@@ -113,6 +115,13 @@ _BACKEND_DEFAULTS: dict[str, str] = {
     "openai": "gpt-5.4",
     "anthropic": "claude-sonnet-4-6",
 }
+
+# Output-token ceiling for Lane 3 extraction calls. A ceiling, not a charge —
+# only tokens actually generated are billed — so it sits well above the bounded
+# diagnosis output (<=8 candidate patterns, evidence drawn from the input) to
+# avoid mid-array truncation that drops extractions (batch B F2). Single source
+# for both backends; raise here if a longer response is ever needed.
+_MAX_OUTPUT_TOKENS = 4096
 
 
 def resolve_backend() -> tuple[str, str]:
@@ -230,6 +239,7 @@ def _call_codex_cli(user_prompt: str) -> list[dict[str, Any]]:
             capture_output=True,
             text=True,
             timeout=120,
+            env=codex_subprocess_env(),
         )
 
         if result.returncode != 0:
@@ -269,7 +279,7 @@ def _call_anthropic(
     client = anthropic.Anthropic(api_key=api_key)
     response = client.messages.create(
         model=model,
-        max_tokens=1024,
+        max_tokens=_MAX_OUTPUT_TOKENS,
         system=_SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_prompt}],
     )
@@ -290,7 +300,7 @@ def _call_openai_compatible(
     token_param = "max_completion_tokens" if uses_completion_tokens else "max_tokens"
     response = client.chat.completions.create(
         model=model,
-        **{token_param: 1024},
+        **{token_param: _MAX_OUTPUT_TOKENS},
         messages=[
             {"role": "system", "content": _SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
@@ -302,7 +312,8 @@ def _call_openai_compatible(
 def _parse_response(text: str) -> list[dict[str, Any]]:
     """Parse LLM JSON response into pattern candidate list.
 
-    Handles: code blocks, embedded JSON in prose, trailing commas.
+    Handles: code blocks, embedded JSON in prose, trailing commas, and
+    truncated/fence-only responses (salvages complete pattern objects).
     """
     text = text.strip()
 
@@ -313,8 +324,12 @@ def _parse_response(text: str) -> list[dict[str, Any]]:
             data = _try_parse_json(extracted)
 
     if data is None:
-        logger.warning("Failed to parse LLM response as JSON: %s", text[:200])
-        return []
+        salvaged = _salvage_patterns(text)
+        if salvaged:
+            data = {"patterns": salvaged}
+        else:
+            logger.warning("Failed to parse LLM response as JSON: %s", text[:200])
+            return []
 
     patterns = data.get("patterns", []) if isinstance(data, dict) else []
     result = []
@@ -351,3 +366,53 @@ def _try_parse_json(text: str) -> dict[str, Any] | None:
         return json.loads(cleaned)
     except json.JSONDecodeError:
         return None
+
+
+def _salvage_patterns(text: str) -> list[dict[str, Any]]:
+    """Recover complete pattern objects from a truncated or fence-only response.
+
+    LLM output can be cut off mid-array (max_tokens) or wrapped in a code fence
+    with no closing marker. When the response as a whole won't parse, scan the
+    "patterns" array and keep the objects that arrived intact rather than
+    dropping the whole extraction. String-aware so braces inside evidence text
+    don't perturb the depth count.
+    """
+    import re
+
+    body = re.sub(r"^\s*```(?:json)?\s*\n?", "", text)
+    array_start = re.search(r'"patterns"\s*:\s*\[', body)
+    if not array_start:
+        return []
+
+    scan = body[array_start.end() :]
+    salvaged: list[dict[str, Any]] = []
+    depth = 0
+    obj_start: int | None = None
+    in_str = False
+    escaped = False
+    for i, ch in enumerate(scan):
+        if in_str:
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == '"':
+                in_str = False
+            continue
+        if ch == '"':
+            in_str = True
+        elif ch == "{":
+            if depth == 0:
+                obj_start = i
+            depth += 1
+        elif ch == "}":
+            if depth > 0:
+                depth -= 1
+                if depth == 0 and obj_start is not None:
+                    obj = _try_parse_json(scan[obj_start : i + 1])
+                    if isinstance(obj, dict) and "pattern_id" in obj:
+                        salvaged.append(obj)
+                    obj_start = None
+        elif ch == "]" and depth == 0:
+            break
+    return salvaged

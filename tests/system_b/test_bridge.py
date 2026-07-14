@@ -4,12 +4,13 @@ from __future__ import annotations
 
 import json
 import shutil
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
 from mira.system_b.lane2.bridge import (
     BridgeVerdict,
+    _log_lane2_error,
     _parse_and_validate_json,
     _resolve_extract_backend,
     run_lane2_bridge,
@@ -251,3 +252,56 @@ class TestRunBridge:
         assert mock_call.call_count == 0
         assert results["false_dilemma"].verdict == "unverified"
         assert results["false_dilemma"].error is None
+
+
+class TestLane2ErrorLogging:
+    """F1: a Lane 2 degradation logs a human-readable reason inline, not a bare
+    'lane2.error' token that reads as cryptic on stderr."""
+
+    def test_message_states_reason_not_bare_token(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        import logging
+
+        with caplog.at_level(logging.WARNING, logger="mira.system_b.lane2.bridge"):
+            _log_lane2_error("step2_timeout", "codex")
+
+        assert len(caplog.records) == 1
+        record = caplog.records[0]
+        message = record.getMessage()
+        assert message != "lane2.error"
+        assert "step2_timeout" in message
+        assert "Lane 2" in message
+        # Structured fields preserved for log consumers.
+        assert record.error_type == "step2_timeout"
+        assert record.backend == "codex"
+
+    def test_exc_info_flag_is_forwarded(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        import logging
+
+        with caplog.at_level(logging.WARNING, logger="mira.system_b.lane2.bridge"):
+            try:
+                raise ValueError("boom")
+            except ValueError:
+                _log_lane2_error("backend_exception", "openai", exc_info=True)
+
+        assert caplog.records[0].exc_info is not None
+
+
+class TestCodexEnvHygiene:
+    """Bridge's codex call must strip OPENAI_API_KEY so codex stays in
+    ChatGPT-subscription mode regardless of ambient env (ops governance §6)."""
+
+    @patch("mira.system_b.lane2.bridge.subprocess.run")
+    def test_lane2_codex_call_strips_openai_key(self, mock_run, monkeypatch) -> None:
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-should-be-stripped")
+        monkeypatch.setenv("MIRA_ENV_SENTINEL", "keep-me")
+        mock_run.return_value = MagicMock(returncode=0)
+        from mira.system_b.lane2.bridge import _call_codex_cli
+
+        _call_codex_cli("system prompt", "user prompt")
+        env = mock_run.call_args.kwargs["env"]
+        assert "OPENAI_API_KEY" not in env
+        assert env.get("MIRA_ENV_SENTINEL") == "keep-me"

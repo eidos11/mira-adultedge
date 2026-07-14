@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import os
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from mira.system_b.lane3.llm_extractor import (
     _extract_json_block,
@@ -269,3 +269,93 @@ class TestParseResponse:
         text = '{"patterns": [{"pattern_id": "test"}]}'
         result = _parse_response(text)
         assert result[0]["evidence"] == []
+
+
+class TestParseResponseTruncation:
+    """Salvage complete pattern objects when the response is truncated
+    (max_tokens) or fenced without a closing marker.
+
+    Real failure: alpha batch 028 C09 (sonnet) returned a ```json-fenced response
+    cut off mid-array and every pattern was dropped. The fence is already stripped
+    for complete responses (since 2026-05-20); the unhandled gap is partial JSON,
+    so the salvage path recovers the patterns that arrived intact.
+    """
+
+    def test_truncated_fenced_salvages_complete_patterns(self) -> None:
+        # Cut off mid third object — no closing brace, array bracket, or fence.
+        text = (
+            "```json\n"
+            "{\n"
+            '  "patterns": [\n'
+            '    {"pattern_id": "fluency_illusion", "evidence": ["e1", "e2"]},\n'
+            '    {"pattern_id": "sunk_cost", "evidence": ["e3"]},\n'
+            '    {"pattern_id": "false_dile'
+        )
+        result = _parse_response(text)
+        assert [p["pattern_id"] for p in result] == ["fluency_illusion", "sunk_cost"]
+        assert result[0]["evidence"] == ["e1", "e2"]
+
+    def test_fence_opener_without_closing_complete_json(self) -> None:
+        # Opening fence, complete JSON, no closing fence.
+        text = '```json\n{"patterns": [{"pattern_id": "sunk_cost", "evidence": ["x"]}]}'
+        result = _parse_response(text)
+        assert len(result) == 1
+        assert result[0]["pattern_id"] == "sunk_cost"
+
+    def test_truncation_before_first_object_completes_returns_empty(self) -> None:
+        # C09 worst case: cut inside the first object's first evidence string.
+        text = (
+            '```json\n{\n  "patterns": [\n    {\n      "pattern_id": "fluency_illusion",\n'
+            '      "evidence": [\n        "I had not actuall'
+        )
+        result = _parse_response(text)
+        assert result == []  # graceful: emit no partial/garbage data
+
+    def test_salvage_skips_object_missing_pattern_id(self) -> None:
+        text = (
+            '```json\n{"patterns": [\n'
+            '  {"evidence": ["no id"]},\n'
+            '  {"pattern_id": "sunk_cost", "evidence": ["y"]},\n'
+            '  {"pattern_id": "trunc'
+        )
+        result = _parse_response(text)
+        assert [p["pattern_id"] for p in result] == ["sunk_cost"]
+
+    def test_brace_in_evidence_string_does_not_break_scan(self) -> None:
+        # A brace inside an evidence string must not confuse depth tracking.
+        text = (
+            "```json\n"
+            '{"patterns": [\n'
+            '  {"pattern_id": "fluency_illusion", "evidence": ["use {curly} here"]},\n'
+            '  {"pattern_id": "trunc'
+        )
+        result = _parse_response(text)
+        assert [p["pattern_id"] for p in result] == ["fluency_illusion"]
+        assert result[0]["evidence"] == ["use {curly} here"]
+
+
+class TestCodexEnvHygiene:
+    """Codex authenticates via the ChatGPT subscription; OPENAI_API_KEY in the
+    subprocess env can flip it to API-key auth (stall/timeout/empty + billing).
+    Every codex call must run with the key stripped (ops governance §6)."""
+
+    def test_helper_strips_openai_key_keeps_rest(self, monkeypatch) -> None:
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-should-be-stripped")
+        monkeypatch.setenv("MIRA_ENV_SENTINEL", "keep-me")
+        from mira.system_b.codex_env import codex_subprocess_env
+
+        env = codex_subprocess_env()
+        assert "OPENAI_API_KEY" not in env
+        assert env.get("MIRA_ENV_SENTINEL") == "keep-me"
+
+    @patch("mira.system_b.lane3.llm_extractor.subprocess.run")
+    def test_lane3_codex_call_strips_openai_key(self, mock_run, monkeypatch) -> None:
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-should-be-stripped")
+        monkeypatch.setenv("MIRA_ENV_SENTINEL", "keep-me")
+        mock_run.return_value = MagicMock(returncode=0)
+        from mira.system_b.lane3.llm_extractor import _call_codex_cli
+
+        _call_codex_cli("learner text")
+        env = mock_run.call_args.kwargs["env"]
+        assert "OPENAI_API_KEY" not in env
+        assert env.get("MIRA_ENV_SENTINEL") == "keep-me"

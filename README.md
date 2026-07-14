@@ -101,6 +101,12 @@ and rule-based contract checks. Likewise, pattern-specific coaching covers 6 of
 without dedicated coaching templates. Expanding both is the primary roadmap
 focus — see [VISION.md](VISION.md).
 
+**On Lane 2 reproducibility:** the Prolog verification rules are deterministic, but
+the per-run LLM feature extraction that feeds them is not — so the same input can
+occasionally yield a different verified/unverified verdict across runs. A run-to-run
+flip only ever downgrades a verdict to *tentative*; it never produces a false
+"verified" claim (the calibration contract holds either way).
+
 ## Quick Start
 
 ```bash

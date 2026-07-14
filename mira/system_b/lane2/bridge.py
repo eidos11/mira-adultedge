@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
+from mira.system_b.codex_env import codex_subprocess_env
 from mira.system_b.lane2 import feature_schemas
 from mira.system_b.lane2.patterns import SUPPORTED_PATTERNS  # SSOT (C6)
 
@@ -53,6 +54,25 @@ class BridgeVerdict:
     verdict: BridgeVerdictValue
     features: dict | None = None
     error: str | None = None
+
+
+def _log_lane2_error(error_type: str, backend: str, *, exc_info: bool = False) -> None:
+    """Log a non-fatal Lane 2 degradation with a human-readable reason (F1).
+
+    Lane 2 failures never abort analysis — System B continues with calibrated
+    (tentative) output — so this emits a warning whose *message* states the
+    reason inline, instead of a bare ``lane2.error`` token that reads as cryptic
+    on stderr. The structured ``error_type``/``backend`` fields are preserved for
+    structured log consumers.
+    """
+    logger.warning(
+        "Lane 2 verification unavailable (%s; backend=%s) — continuing with "
+        "calibrated output; affected patterns left unverified",
+        error_type,
+        backend,
+        extra={"error_type": error_type, "backend": backend},
+        exc_info=exc_info,
+    )
 
 
 def run_lane2_bridge(
@@ -115,10 +135,7 @@ def run_lane2_bridge(
                 verdict="unverified",
                 error="step2_extraction_failed",
             )
-        logger.warning(
-            "lane2.error",
-            extra={"error_type": "step2_extraction_failed", "backend": backend},
-        )
+        _log_lane2_error("step2_extraction_failed", backend)
         return results
 
     extracted = _parse_and_validate_json(raw_json)
@@ -130,10 +147,7 @@ def run_lane2_bridge(
                 verdict="unverified",
                 error="step2_json_invalid",
             )
-        logger.warning(
-            "lane2.error",
-            extra={"error_type": "step2_json_invalid", "backend": backend},
-        )
+        _log_lane2_error("step2_json_invalid", backend)
         return results
 
     for pid in supported:
@@ -188,10 +202,7 @@ def _call_step2_with_retry(
         if result is not None:
             return result
         if attempt == 0:
-            logger.warning(
-                "lane2.error",
-                extra={"error_type": "step2_attempt1_failed", "backend": backend},
-            )
+            _log_lane2_error("step2_attempt1_failed", backend)
 
     for fallback in _FALLBACK_ORDER:
         if fallback == backend:
@@ -229,7 +240,7 @@ def _call_step2(
         elif backend == "anthropic":
             raw = _call_anthropic(system_prompt, user_prompt, model)
     except Exception:
-        logger.warning("lane2.error", extra={"error_type": "backend_exception", "backend": backend}, exc_info=True)
+        _log_lane2_error("backend_exception", backend, exc_info=True)
         return None
     finally:
         duration_ms = int((time.monotonic() - t_start) * 1000)
@@ -258,13 +269,11 @@ def _call_codex_cli(system_prompt: str, user_prompt: str) -> str | None:
             capture_output=True,
             text=True,
             timeout=_STEP2_TIMEOUT,
+            env=codex_subprocess_env(),
         )
 
         if result.returncode != 0:
-            logger.warning(
-                "lane2.error",
-                extra={"error_type": "codex_nonzero_exit", "backend": "codex"},
-            )
+            _log_lane2_error("codex_nonzero_exit", "codex")
             return None
 
         with open(output_path) as f:
@@ -273,10 +282,10 @@ def _call_codex_cli(system_prompt: str, user_prompt: str) -> str | None:
         return text if text else None
 
     except FileNotFoundError:
-        logger.warning("lane2.error", extra={"error_type": "codex_not_found", "backend": "codex"})
+        _log_lane2_error("codex_not_found", "codex")
         return None
     except subprocess.TimeoutExpired:
-        logger.warning("lane2.error", extra={"error_type": "step2_timeout", "backend": "codex"})
+        _log_lane2_error("step2_timeout", "codex")
         return None
     finally:
         try:
@@ -289,12 +298,12 @@ def _call_openai(system_prompt: str, user_prompt: str, model: str) -> str | None
     try:
         import openai
     except ImportError:
-        logger.warning("lane2.error", extra={"error_type": "openai_not_installed", "backend": "openai"})
+        _log_lane2_error("openai_not_installed", "openai")
         return None
 
     api_key = os.environ.get("OPENAI_API_KEY", "")
     if not api_key:
-        logger.warning("lane2.error", extra={"error_type": "openai_key_missing", "backend": "openai"})
+        _log_lane2_error("openai_key_missing", "openai")
         return None
 
     client = openai.OpenAI(api_key=api_key, timeout=_STEP2_TIMEOUT)
@@ -316,12 +325,12 @@ def _call_anthropic(system_prompt: str, user_prompt: str, model: str) -> str | N
     try:
         import anthropic
     except ImportError:
-        logger.warning("lane2.error", extra={"error_type": "anthropic_not_installed", "backend": "anthropic"})
+        _log_lane2_error("anthropic_not_installed", "anthropic")
         return None
 
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
-        logger.warning("lane2.error", extra={"error_type": "anthropic_key_missing", "backend": "anthropic"})
+        _log_lane2_error("anthropic_key_missing", "anthropic")
         return None
 
     client = anthropic.Anthropic(api_key=api_key, timeout=_STEP2_TIMEOUT)
@@ -488,21 +497,13 @@ def _run_prolog_verify(
     try:
         prolog_terms = feature_schemas.json_to_prolog_terms(pattern_id, extracted)
     except Exception:
-        logger.warning(
-            "lane2.error",
-            extra={"error_type": "prolog_term_conversion_failed", "backend": backend},
-            exc_info=True,
-        )
+        _log_lane2_error("prolog_term_conversion_failed", backend, exc_info=True)
         return BridgeVerdict(pattern_id=pattern_id, verdict="unverified", error="prolog_term_conversion_failed")
 
     try:
         verdict_value = _query_prolog(pattern_id, prolog_terms)
     except Exception:
-        logger.warning(
-            "lane2.error",
-            extra={"error_type": "prolog_execution_error", "backend": backend},
-            exc_info=True,
-        )
+        _log_lane2_error("prolog_execution_error", backend, exc_info=True)
         return BridgeVerdict(pattern_id=pattern_id, verdict="unverified", error="prolog_execution_error")
 
     features_out = {k: extracted.get(k) for k in extracted if k in {"options_analysis", "causal_analysis"}}

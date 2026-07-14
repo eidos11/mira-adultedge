@@ -99,6 +99,20 @@ class TestFalseDilemmaVerify:
         features = "[option_count(2),exclusivity_markers(['or']),viable_middle_exists(true),logical_space_explored(explicit)]"
         assert _verify(prolog, "false_dilemma", features) == "reject"
 
+    # ── F4: a di-lemma needs at least two options on the table ───────────
+    def test_unverified_zero_options_no_dilemma(self) -> None:
+        """F4: option_count(0) is not a dilemma — a rhetorical 'not X but Y' marker
+        with nothing actually listed must not verify vacuously (was 'accept'). 028 B07."""
+        prolog = _prolog_engine()
+        features = "[option_count(0),exclusivity_markers(['this is not X, it is Y']),viable_middle_exists(false)]"
+        assert _verify(prolog, "false_dilemma", features) == "unverified"
+
+    def test_unverified_single_option_no_dilemma(self) -> None:
+        """F4: one option is not a dilemma either — the pattern needs two horns."""
+        prolog = _prolog_engine()
+        features = "[option_count(1),exclusivity_markers(['only']),viable_middle_exists(false)]"
+        assert _verify(prolog, "false_dilemma", features) == "unverified"
+
 
 # ── oversimplified_cause ───────────────────────────────────────────────
 
